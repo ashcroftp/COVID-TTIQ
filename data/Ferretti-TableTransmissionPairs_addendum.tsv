@@ -1,0 +1,174 @@
+Source manuscript	Country	Comments	Type of transmission	Forward/backward tracing	Infector symptom onset	 Infected symptom onset	s1	s2	serial interval	Infector first exposure	Infector last exposure	First exposure	Last exposure	T1L	T1R	T2L	T2R	Time of report	Tr	Exponential growth	Source
+Ferretti	Vietnam	"infected father travelling with son, who got infected"	household	none	17/01/2020	20/01/2020	47	50	3	NA	13/01/2020	17/01/2020	22/01/2020	NA	43	47	52	28/01/2020	58	NO	https://www.nejm.org/doi/full/10.1056/NEJMc2001272
+Ferretti	Vietnam	receptionist in hotel of previous case	hotel	none	17/01/2020	19/01/2020	47	49	2	NA	22/01/2020	17/01/2020	20/01/2020	NA	52	47	50	01/02/2020	62	NO	https://vietnaminsider.vn/vietnam-reports-a-new-case-of-coronavirus-infection-in-nha-trang/
+Ferretti	South Korea	friend	acquaintance	unknown	22/01/2020	26/01/2020	52	56	4	NA	20/01/2020	22/01/2020	22/01/2020	NA	50	52	52	07/02/2020	68	YES	https://www.e-epih.org/journal/view.php?number=1074
+Ferretti	Germany	colleagues	workplace	none	24/01/2020	26/01/2020	54	56	2	20/01/2020	21/01/2020	20/01/2020	21/01/2020	50	51	50	51	30/01/2020	60	NO	https://www.nejm.org/doi/full/10.1056/NEJMc2001468
+Ferretti	Germany	colleagues	workplace	none	24/01/2020	26/01/2020	54	56	2	20/01/2020	21/01/2020	21/01/2020	24/01/2020	50	51	51	54	30/01/2020	60	NO	https://www.nejm.org/doi/full/10.1056/NEJMc2001468
+Ferretti	Taiwan	family member	family	none	25/01/2020	26/01/2020	55	56	1	NA	20/01/2020	20/01/2020	NA	NA	50	50	NA	28/01/2020	58	NO	https://www.cdc.gov.tw/Bulletin/Detail/1T3s2mxcCjqlE0MczXRD8w?typeid=9
+Ferretti	South Korea	contact	acquaintance	unknown	26/01/2020	30/01/2020	56	60	4	22/01/2020	22/01/2020	26/01/2020	26/01/2020	52	52	56	56	07/02/2020	68	YES	https://www.e-epih.org/journal/view.php?number=1074
+Ferretti	South Korea	wife	household	unknown	26/01/2020	29/01/2020	56	59	3	22/01/2020	22/01/2020	26/01/2020	29/01/2020	52	52	56	59	07/02/2020	68	YES	https://www.e-epih.org/journal/view.php?number=1074
+Ferretti	South Korea	son	household	unknown	26/01/2020	30/01/2020	56	60	4	22/01/2020	22/01/2020	26/01/2020	29/01/2020	52	52	56	59	07/02/2020	68	YES	https://www.e-epih.org/journal/view.php?number=1074
+Ferretti	South Korea	friend	acquaintance	unknown	26/01/2020	30/01/2020	56	60	4	NA	24/01/2020	24/01/2020	28/01/2020	NA	54	54	58	07/02/2020	68	YES	https://www.e-epih.org/journal/view.php?number=1074
+Ferretti	Germany	colleagues	workplace	none	21/01/2020	24/01/2020	51	54	3	NA	19/01/2020	21/01/2020	22/01/2020	NA	49	51	52	30/01/2020	60	NO	https://www.nejm.org/doi/full/10.1056/NEJMc2001468
+Ferretti	Germany	colleagues	workplace	none	21/01/2020	24/01/2020	51	54	3	NA	19/01/2020	22/01/2020	22/01/2020	NA	49	52	52	30/01/2020	60	NO	https://www.nejm.org/doi/full/10.1056/NEJMc2001468
+Ferretti	South Korea	wife	household	unknown	20/01/2020	29/01/2020	50	59	9	NA	18/01/2020	20/01/2020	31/01/2020	NA	48	50	61	07/02/2020	68	YES	https://www.e-epih.org/journal/view.php?number=1074
+Ferretti	South Korea	family member	family	unknown	01/02/2020	05/02/2020	62	66	4	NA	20/01/2020	21/01/2020	01/02/2020	NA	50	51	62	07/02/2020	68	YES	https://www.e-epih.org/journal/view.php?number=1074
+Ferretti	China	family member	household	unknown	20/12/2019	25/12/2019	19	24	5	NA	NA	NA	NA	NA	NA	NA	NA	29/01/2020	59	YES	https://www.nejm.org/doi/full/10.1056/NEJMoa2001316
+Ferretti	China	family member	household	unknown	27/12/2019	03/01/2020	26	33	7	NA	NA	NA	NA	NA	NA	NA	NA	29/01/2020	59	YES	https://www.nejm.org/doi/full/10.1056/NEJMoa2001316
+Ferretti	China	family member	household	unknown	04/01/2020	11/01/2020	34	41	7	NA	NA	NA	NA	NA	NA	NA	NA	29/01/2020	59	YES	https://www.nejm.org/doi/full/10.1056/NEJMoa2001316
+Ferretti	Singapore	case 79	household	none	10/02/2020	12/02/2020	71	73	2	NA	NA	NA	NA	NA	NA	NA	NA	01/03/2020	91	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 72	acquaintance	none	07/02/2020	10/02/2020	68	71	3	NA	NA	NA	NA	NA	NA	NA	NA	01/03/2020	91	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 55-50	household	forward	30/01/2020	07/02/2020	60	68	8	NA	NA	NA	NA	NA	NA	NA	NA	01/03/2020	91	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 77	acquaintance	forward	07/02/2020	10/02/2020	68	71	3	NA	NA	NA	NA	NA	NA	NA	NA	01/03/2020	91	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 104	household	forward	17/02/2020	20/02/2020	78	81	3	NA	NA	NA	25/02/2020	NA	NA	NA	86	01/03/2020	91	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 103	family	forward	17/02/2020	23/02/2020	78	84	6	NA	NA	NA	25/02/2020	NA	NA	NA	86	01/03/2020	91	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 102	household	forward	25/02/2020	25/02/2020	78	86	8	NA	NA	NA	25/02/2020	NA	NA	NA	86	01/03/2020	91	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 100	acquaintance	forward	17/02/2020	27/02/2020	78	88	10	NA	NA	NA	25/02/2020	NA	NA	NA	86	01/03/2020	91	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 99	acquaintance	forward	17/02/2020	21/02/2020	78	82	4	NA	NA	NA	25/02/2020	NA	NA	NA	86	01/03/2020	91	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 27	household	none	29/01/2020	01/02/2020	59	62	3	23/01/2020	23/01/2020	NA	NA	53	53	NA	NA	04/02/2020	65	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 21	household	none	29/01/2020	02/02/2020	59	63	4	23/01/2020	23/01/2020	NA	NA	53	53	NA	NA	04/02/2020	65	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 48	workplace	none	29/01/2020	01/02/2020	59	62	3	25/01/2020	25/01/2020	NA	NA	55	55	NA	NA	12/02/2020	73	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 49	workplace	none	29/01/2020	03/02/2020	59	64	5	25/01/2020	25/01/2020	NA	NA	55	55	NA	NA	12/02/2020	73	NO	https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	case 84	acquaintance	none	25/01/2020	04/02/2020	55	65	10	19/01/2020	19/01/2020	25/01/2020	25/01/2020	49	49	55	55	14/02/2020	75	NO	https://www.sciencemag.org/news/2020/02/singapore-claims-first-use-antibody-test-track-coronavirus-infections ; https://www.channelnewsasia.com/news/singapore/wuhan-virus-singapore-confirmed-cases-coronavirus-12324270 ; https://www.straitstimes.com/singapore/health/novel-coronavirus-cases-in-singapore
+Ferretti	Singapore	church connection case 66	random contact	none	25/01/2020	29/01/2020	55	59	4	19/01/2020	19/01/2020	25/01/2020	25/01/2020	49	49	55	55	14/02/2020	75	NO	https://www.sciencemag.org/news/2020/02/singapore-claims-first-use-antibody-test-track-coronavirus-infections
+Ferretti	Italy	GP	HCW	forward	15/02/2020	21/02/2020	76	82	6	NA	15/02/2020	17/02/2020	17/02/2020	NA	76	78	78	22/02/2020	83	YES	"https://www.theguardian.com/world/2020/feb/26/coronavirus-inquiry-opens-into-hospitals-at-centre-of-italy-outbreak ; personal communication from Alice Ledda (DIDE and J-IDEA, Imperial College London, United Kingdom)"
+Ferretti	Italy	hospital doctor	HCW	forward	15/02/2020	21/02/2020	76	82	6	NA	15/02/2020	19/02/2020	20/02/2020	NA	76	80	81	22/02/2020	83	YES	"https://www.theguardian.com/world/2020/feb/26/coronavirus-inquiry-opens-into-hospitals-at-centre-of-italy-outbreak ; personal communication from Alice Ledda (DIDE and J-IDEA, Imperial College London, United Kingdom)"
+Ferretti	Italy	anestesiologist	HCW	forward	15/02/2020	21/02/2020	76	82	6	NA	15/02/2020	20/02/2020	20/02/2020	NA	76	81	81	22/02/2020	83	YES	"https://www.theguardian.com/world/2020/feb/26/coronavirus-inquiry-opens-into-hospitals-at-centre-of-italy-outbreak ; personal communication from Alice Ledda (DIDE and J-IDEA, Imperial College London, United Kingdom)"
+Ferretti	Italy	anestesiologist	HCW	forward	15/02/2020	21/02/2020	76	82	6	NA	15/02/2020	20/02/2020	20/02/2020	NA	76	81	81	22/02/2020	83	YES	"https://www.theguardian.com/world/2020/feb/26/coronavirus-inquiry-opens-into-hospitals-at-centre-of-italy-outbreak ; personal communication from Alice Ledda (DIDE and J-IDEA, Imperial College London, United Kingdom)"
+Ferretti	Hong Kong	case 15	family	forward	30/01/2020	01/02/2020	60	62	2	21/01/2020	23/01/2020	23/01/2020	NA	51	53	53	NA	01/03/2020	91	NO	https://www.chinadailyhk.com/article/119823 ; https://www.info.gov.hk/gia/general/202002/02/P2020020200627.htm
+Ferretti	Hong Kong	case 61	household	none	31/01/2020	02/02/2020	61	63	2	26/01/2020	26/01/2020	27/01/2020	31/01/2020	56	56	57	61	01/03/2020	91	NO	https://www.scmp.com/news/hong-kong/health-environment/article/3051077/coronavirus-domestic-helper-tests-positive-taking ; https://www.news.gov.hk/eng/2020/02/20200213/20200213_214700_091.html?type=ticker
+Ferretti	Hong Kong	case 90	household	none	12/02/2020	16/02/2020	73	77	4	NA	NA	NA	NA	NA	NA	NA	NA	01/03/2020	91	NO	https://news.abs-cbn.com/overseas/02/27/20/2nd-filipino-domestic-worker-tests-positive-for-novel-coronavirus ; https://edition.cnn.com/asia/live-news/coronavirus-outbreak-02-25-20-hnk-intl/index.html
+Ferretti	Hong Kong	case 59	workplace	none	07/02/2020	13/02/2020	68	74	6	NA	NA	06/02/2020	07/02/2020	NA	NA	67	68	01/03/2020	91	NO	https://www.scmp.com/news/hong-kong/health-environment/article/3050916/coronavirus-colleague-57th-infected-hongkonger
+Xia	China	1		unknown	29/01/2020	01/02/2020	59	62		NA	23/01/2020	23/01/2020	NA	NA	53	53	NA	17/02/2020	78	NO	
+Xia	China	2		unknown	14/01/2020	19/01/2020	44	49		NA	12/01/2020	12/01/2020	NA	NA	42	42	NA	17/02/2020	78	NO	
+Xia	China	4		unknown	22/01/2020	28/01/2020	52	58		NA	18/01/2020	20/01/2020	NA	NA	48	50	NA	17/02/2020	78	NO	
+Xia	China	5		unknown	24/01/2020	23/01/2020	54	53		NA	16/01/2020	16/01/2020	NA	NA	46	46	NA	17/02/2020	78	NO	
+Xia	China	6		unknown	13/01/2020	21/01/2020	43	51		NA	10/01/2020	10/01/2020	NA	NA	40	40	NA	17/02/2020	78	NO	
+Xia	China	7		unknown	17/01/2020	28/01/2020	47	58		NA	12/01/2020	12/01/2020	NA	NA	42	42	NA	17/02/2020	78	NO	
+Xia	China	9		unknown	25/01/2020	28/01/2020	55	58		NA	22/01/2020	22/01/2020	NA	NA	52	52	NA	17/02/2020	78	NO	
+Xia	China	10		unknown	21/01/2020	27/01/2020	51	57		NA	13/01/2020	13/01/2020	NA	NA	43	43	NA	17/02/2020	78	NO	
+Xia	China	12		unknown	28/01/2020	29/01/2020	58	59		NA	22/01/2020	22/01/2020	NA	NA	52	52	NA	17/02/2020	78	NO	
+Xia	China	13		unknown	27/01/2020	29/01/2020	57	59		NA	23/01/2020	23/01/2020	NA	NA	53	53	NA	17/02/2020	78	NO	
+Xia	China	19		unknown	18/01/2020	24/01/2020	48	54		NA	17/01/2020	17/01/2020	NA	NA	47	47	NA	17/02/2020	78	NO	
+Xia	China	20		unknown	19/01/2020	21/01/2020	49	51		NA	16/01/2020	17/01/2020	NA	NA	46	47	NA	17/02/2020	78	NO	
+Xia	China	23		unknown	16/01/2020	19/01/2020	46	49		NA	15/01/2020	15/01/2020	NA	NA	45	45	NA	17/02/2020	78	NO	
+Xia	China	25		unknown	15/01/2020	22/01/2020	45	52		NA	14/01/2020	14/01/2020	NA	NA	44	44	NA	17/02/2020	78	NO	
+Xia	China	26		unknown	21/01/2020	27/01/2020	51	57		NA	13/01/2020	13/01/2020	NA	NA	43	43	NA	17/02/2020	78	NO	
+Xia	China	28		unknown	26/01/2020	31/01/2020	56	61		NA	20/01/2020	20/01/2020	NA	NA	50	50	NA	17/02/2020	78	NO	
+Xia	China	29		unknown	04/02/2020	03/02/2020	65	64		NA	19/01/2020	19/01/2020	NA	NA	49	49	NA	17/02/2020	78	NO	
+Xia	China	30		unknown	24/01/2020	29/01/2020	54	59		NA	22/01/2020	22/01/2020	NA	NA	52	52	NA	17/02/2020	78	NO	
+Xia	China	32		unknown	22/01/2020	27/01/2020	52	57		NA	19/01/2020	20/01/2020	NA	NA	49	50	NA	17/02/2020	78	NO	
+Xia	China	34		unknown	30/01/2020	05/02/2020	60	66		NA	28/01/2020	28/01/2020	NA	NA	58	58	NA	17/02/2020	78	NO	
+Xia	China	35		unknown	22/01/2020	22/01/2020	52	52		NA	19/01/2020	21/01/2020	NA	NA	49	51	NA	17/02/2020	78	NO	
+Xia	China	36		unknown	23/01/2020	26/01/2020	53	56		NA	19/01/2020	19/01/2020	NA	NA	49	49	NA	17/02/2020	78	NO	
+Xia	China	37		unknown	23/01/2020	05/02/2020	53	66		NA	19/01/2020	19/01/2020	NA	NA	49	49	NA	17/02/2020	78	NO	
+Xia	China	38		unknown	24/01/2020	01/02/2020	54	62		NA	22/01/2020	22/01/2020	NA	NA	52	52	NA	17/02/2020	78	NO	
+Xia	China	39		unknown	01/02/2020	02/02/2020	62	63		NA	23/01/2020	23/01/2020	NA	NA	53	53	NA	17/02/2020	78	NO	
+Xia	China	41		unknown	06/02/2020	06/02/2020	67	67		NA	22/01/2020	22/01/2020	NA	NA	52	52	NA	17/02/2020	78	NO	
+Xia	China	42		unknown	23/01/2020	04/02/2020	53	65		NA	13/01/2020	13/01/2020	NA	NA	43	43	NA	17/02/2020	78	NO	
+Xia	China	45		unknown	21/01/2020	23/01/2020	51	53		NA	19/01/2020	19/01/2020	NA	NA	49	49	NA	17/02/2020	78	NO	
+Xia	China	46		unknown	29/01/2020	26/01/2020	59	56		NA	21/01/2020	22/01/2020	NA	NA	51	52	NA	17/02/2020	78	NO	
+Xia	China	47		unknown	29/01/2020	06/02/2020	59	67		NA	24/01/2020	25/01/2020	NA	NA	54	55	NA	17/02/2020	78	NO	
+Xia	China	49		unknown	22/01/2020	24/01/2020	52	54		NA	15/01/2020	19/01/2020	NA	NA	45	49	NA	17/02/2020	78	NO	
+Xia	China	50		unknown	31/01/2020	02/02/2020	61	63		NA	14/01/2020	14/01/2020	NA	NA	44	44	NA	17/02/2020	78	NO	
+Zhang	China	1		unknown			0	7						NA	NA	NA	NA		40	NO	
+Zhang	China	2		unknown			0	2						NA	NA	NA	NA		40	NO	
+Zhang	China	3.1		unknown			0	5						NA	NA	NA	NA		40	NO	
+Zhang	China	3.2		unknown			0	8						NA	NA	NA	NA		40	NO	
+Zhang	China	4		unknown			0	9						NA	NA	NA	NA		40	NO	
+Zhang	China	5.1		unknown			0	5						NA	NA	NA	NA		40	NO	
+Zhang	China	5.2		unknown			0	7						NA	NA	NA	NA		40	NO	
+Zhang	China	6		unknown			0	7						NA	NA	NA	NA		40	NO	
+Zhang	China	7.1		unknown			0	7						NA	NA	NA	NA		40	NO	
+Zhang	China	7.2		unknown			0	7						NA	NA	NA	NA		40	NO	
+Zhang	China	8.1		unknown			0	6						NA	NA	NA	NA		40	NO	
+Zhang	China	8.2		unknown			0	7						NA	NA	NA	NA		40	NO	
+Zhang	China	9		unknown			0	4						NA	NA	NA	NA		40	NO	
+Zhang	China	10.1		unknown			0	3						NA	NA	NA	NA		40	NO	
+Zhang	China	10.2		unknown			0	2						NA	NA	NA	NA		40	NO	
+Zhang	China	11		unknown			0	4						NA	NA	NA	NA		40	NO	
+Zhang	China	12		unknown			0	2						NA	NA	NA	NA		40	NO	
+Zhang	China	13		unknown			0	5						NA	NA	NA	NA		40	NO	
+Zhang	China	14.1		unknown			0	5						NA	NA	NA	NA		40	NO	
+Zhang	China	14.2		unknown			0	5						NA	NA	NA	NA		40	NO	
+Zhang	China	14.3		unknown			0	3						NA	NA	NA	NA		40	NO	
+Zhang	China	15		unknown			0	11						NA	NA	NA	NA		40	NO	
+Zhang	China	16		unknown			0	4						NA	NA	NA	NA		40	NO	
+Zhang	China	17		unknown			0	10						NA	NA	NA	NA		40	NO	
+Zhang	China	18		unknown			0	3						NA	NA	NA	NA		40	NO	
+Zhang	China	19		unknown			0	1						NA	NA	NA	NA		40	NO	
+Zhang	China	20		unknown			0	6						NA	NA	NA	NA		40	NO	
+Zhang	China	21		unknown			0	7						NA	NA	NA	NA		40	NO	
+Zhang	China	22		unknown			0	8						NA	NA	NA	NA		40	NO	
+Zhang	China	23		unknown			0	1						NA	NA	NA	NA		40	NO	
+Zhang	China	24		unknown			0	3						NA	NA	NA	NA		40	NO	
+Zhang	China	25		unknown			0	0						NA	NA	NA	NA		40	NO	
+Zhang	China	26		unknown			0	3						NA	NA	NA	NA		40	NO	
+Zhang	China	27		unknown			0	4						NA	NA	NA	NA		40	NO	
+Zhang	China	28		unknown			0	4						NA	NA	NA	NA		40	NO	
+He	China	1		unknown	17/1/2020	20/1/2020	47	50		NA	NA	13/1/2020	13/1/2020	NA	NA	43	43	15/03/2020	105	NO	
+He	China	2		unknown	31/1/2020	06/02/2020	61	67		NA	NA	28/1/2020	01/02/2020	NA	NA	58	62	15/03/2020	105	NO	
+He	China	3		unknown	29/1/2020	1/2/2020	59	62		NA	NA	23/1/2020	23/1/2020	NA	NA	53	53	15/03/2020	105	NO	
+He	China	4		unknown	29/1/2020	5/2/2020	59	66		NA	NA	26/1/2020	28/1/2020	NA	NA	56	58	15/03/2020	105	NO	
+He	China	5		unknown	25/1/2020	28/1/2020	55	58		NA	NA	22/1/2020	28/1/2020	NA	NA	52	58	15/03/2020	105	NO	
+He	China	6		unknown	29/1/2020	1/2/2020	59	62		NA	NA	23/1/2020	31/1/2020	NA	NA	53	61	15/03/2020	105	NO	
+He	China	7		unknown	29/1/2020	1/2/2020	59	62		NA	NA	11/1/2020	1/2/2020	NA	NA	41	62	15/03/2020	105	NO	
+He	China	8		unknown	30/1/2020	3/2/2020	60	64		NA	NA	13/1/2020	3/2/2020	NA	NA	43	64	15/03/2020	105	NO	
+He	China	9		unknown	12/2/2020	12/2/2020	73	73		NA	NA	12/2/2020	12/2/2020	NA	NA	73	73	15/03/2020	105	NO	
+He	China	10		unknown	13/2/2020	25/2/2020	74	86		NA	NA	13/2/2020	25/2/2020	NA	NA	74	86	15/03/2020	105	NO	
+He	China	11		unknown	13/2/2020	29/2/2020	74	90		NA	NA	13/2/2020	29/2/2020	NA	NA	74	90	15/03/2020	105	NO	
+He	China	12		unknown	12/2/2020	16/2/2020	73	77		NA	NA	12/2/2020	16/2/2020	NA	NA	73	77	15/03/2020	105	NO	
+He	China	13		unknown	13/2/2020	15/2/2020	74	76		NA	NA	7/2/2020	15/2/2020	NA	NA	68	76	15/03/2020	105	NO	
+He	China	14		unknown	13/2/2020	17/2/2020	74	78		NA	NA	7/2/2020	17/2/2020	NA	NA	68	78	15/03/2020	105	NO	
+He	China	15		unknown	17/2/2020	19/2/2020	78	80		NA	NA	29/1/2020	19/2/2020	NA	NA	59	80	15/03/2020	105	NO	
+He	China	16		unknown	17/2/2020	19/2/2020	78	80		NA	NA	29/1/2020	19/2/2020	NA	NA	59	80	15/03/2020	105	NO	
+He	China	17		unknown	15/2/2020	17/2/2020	76	78		NA	NA	14/2/2020	14/2/2020	NA	NA	75	75	15/03/2020	105	NO	
+He	China	18		unknown	15/2/2020	17/2/2020	76	78		NA	NA	14/2/2020	14/2/2020	NA	NA	75	75	15/03/2020	105	NO	
+He	China	19		unknown	20/2/2020	20/2/2020	81	81		NA	NA	30/1/2020	20/2/2020	NA	NA	60	81	15/03/2020	105	NO	
+He	China	20		unknown	3/2/2020	17/2/2020	64	78		NA	NA	27/1/2020	17/2/2020	NA	NA	57	78	15/03/2020	105	NO	
+He	China	22		unknown	13/2/2020	25/2/2020	74	86		NA	NA	13/2/2020	25/2/2020	NA	NA	74	86	15/03/2020	105	NO	
+He	China	23		unknown	25/1/2020	26/1/2020	55	56		NA	NA	20/1/2020	26/1/2020	NA	NA	50	56	15/03/2020	105	NO	
+He	China	24		unknown	21/1/2020	27/1/2020	51	57		NA	NA	12/1/2020	27/1/2020	NA	NA	42	57	15/03/2020	105	NO	
+He	China	25		unknown	6/2/2020	24/2/2020	67	85		NA	NA	11/2/2020	16/2/2020	NA	NA	72	77	15/03/2020	105	NO	
+He	China	27		unknown	28/1/2020	31/1/2020	58	61		NA	NA	10/1/2020	31/1/2020	NA	NA	40	61	15/03/2020	105	NO	
+He	China	29		unknown	22/1/2020	28/1/2020	52	58		NA	NA	7/1/2020	28/1/2020	NA	NA	37	58	15/03/2020	105	NO	
+He	China	30		unknown	18/1/2020	24/1/2020	48	54		NA	NA	17/1/2020	24/1/2020	NA	NA	47	54	15/03/2020	105	NO	
+He	China	32		unknown	24/1/2020	25/1/2020	54	55		NA	NA	4/1/2020	25/1/2020	NA	NA	34	55	15/03/2020	105	NO	
+He	China	33		unknown	17/1/2020	28/1/2020	47	58		NA	NA	7/1/2020	28/1/2020	NA	NA	37	58	15/03/2020	105	NO	
+He	China	34		unknown	26/1/2020	30/1/2020	56	60		NA	NA	16/1/2020	16/1/2020	NA	NA	46	46	15/03/2020	105	NO	
+He	China	35		unknown	19/1/2020	4/2/2020	49	65		NA	NA	22/1/2020	24/1/2020	NA	NA	52	54	15/03/2020	105	NO	
+He	China	36		unknown	29/1/2020	5/2/2020	59	66		NA	NA	15/1/2020	5/2/2020	NA	NA	45	66	15/03/2020	105	NO	
+He	China	37		unknown	10/1/2020	15/1/2020	40	45		NA	NA	25/12/2019	15/1/2020	NA	NA	24	45	15/03/2020	105	NO	
+He	China	38		unknown	10/1/2020	17/1/2020	40	47		NA	NA	27/12/2019	17/1/2020	NA	NA	26	47	15/03/2020	105	NO	
+He	China	39		unknown	15/1/2020	24/1/2020	45	54		NA	NA	3/1/2020	24/1/2020	NA	NA	33	54	15/03/2020	105	NO	
+He	China	40		unknown	22/1/2020	24/1/2020	52	54		NA	NA	21/1/2020	21/1/2020	NA	NA	51	51	15/03/2020	105	NO	
+He	China	41		unknown	22/1/2020	25/1/2020	52	55		NA	NA	21/1/2020	21/1/2020	NA	NA	51	51	15/03/2020	105	NO	
+He	China	42		unknown	22/1/2020	24/1/2020	52	54		NA	NA	21/1/2020	21/1/2020	NA	NA	51	51	15/03/2020	105	NO	
+He	China	43		unknown	22/1/2020	22/1/2020	52	52		NA	NA	21/1/2020	21/1/2020	NA	NA	51	51	15/03/2020	105	NO	
+He	China	44		unknown	22/1/2020	24/1/2020	52	54		NA	NA	21/1/2020	21/1/2020	NA	NA	51	51	15/03/2020	105	NO	
+He	China	45		unknown	25/1/2020	3/2/2020	55	64		NA	NA	13/1/2020	3/2/2020	NA	NA	43	64	15/03/2020	105	NO	
+He	China	46		unknown	29/1/2020	1/2/2020	59	62		NA	NA	25/1/2020	25/1/2020	NA	NA	55	55	15/03/2020	105	NO	
+He	China	47		unknown	29/1/2020	6/2/2020	59	67		NA	NA	25/1/2020	25/1/2020	NA	NA	55	55	15/03/2020	105	NO	
+He	China	48		unknown	29/1/2020	3/2/2020	59	64		NA	NA	13/1/2020	3/2/2020	NA	NA	43	64	15/03/2020	105	NO	
+He	China	49		unknown	23/1/2020	3/2/2020	53	64		NA	NA	22/1/2020	23/1/2020	NA	NA	52	53	15/03/2020	105	NO	
+He	China	50		unknown	30/1/2020	2/2/2020	60	63		NA	NA	12/1/2020	2/2/2020	NA	NA	42	63	15/03/2020	105	NO	
+He	China	52		unknown	24/1/2020	1/2/2020	54	62		NA	NA	11/1/2020	1/2/2020	NA	NA	41	62	15/03/2020	105	NO	
+He	China	53		unknown	17/1/2020	31/1/2020	47	61		NA	NA	10/1/2020	31/1/2020	NA	NA	40	61	15/03/2020	105	NO	
+He	China	54		unknown	22/1/2020	19/1/2020	52	49		NA	NA	18/1/2020	18/1/2020	NA	NA	48	48	15/03/2020	105	NO	
+He	China	55		unknown	16/1/2020	25/1/2020	46	55		NA	NA	4/1/2020	25/1/2020	NA	NA	34	55	15/03/2020	105	NO	
+He	China	56		unknown	18/1/2020	22/1/2020	48	52		NA	NA	18/1/2020	22/1/2020	NA	NA	48	52	15/03/2020	105	NO	
+He	China	57		unknown	18/1/2020	22/1/2020	48	52		NA	NA	1/1/2020	22/1/2020	NA	NA	31	52	15/03/2020	105	NO	
+He	China	58		unknown	18/1/2020	25/1/2020	48	55		NA	NA	4/1/2020	25/1/2020	NA	NA	34	55	15/03/2020	105	NO	
+He	China	59		unknown	18/1/2020	25/1/2020	48	55		NA	NA	4/1/2020	25/1/2020	NA	NA	34	55	15/03/2020	105	NO	
+He	China	60		unknown	29/1/2020	3/2/2020	59	64		NA	NA	13/1/2020	3/2/2020	NA	NA	43	64	15/03/2020	105	NO	
+He	China	64		unknown	24/1/2020	25/1/2020	54	55		NA	NA	4/1/2020	25/1/2020	NA	NA	34	55	15/03/2020	105	NO	
+He	China	65		unknown	24/1/2020	31/1/2020	54	61		NA	NA	10/1/2020	31/1/2020	NA	NA	40	61	15/03/2020	105	NO	
+He	China	67		unknown	30/1/2020	1/2/2020	60	62		NA	NA	11/1/2020	1/2/2020	NA	NA	41	62	15/03/2020	105	NO	
+He	China	68		unknown	28/1/2020	24/1/2020	58	54		NA	NA	3/1/2020	24/1/2020	NA	NA	33	54	15/03/2020	105	NO	
+He	China	69		unknown	26/1/2020	2/2/2020	56	63		NA	NA	12/1/2020	2/2/2020	NA	NA	42	63	15/03/2020	105	NO	
+He	China	70		unknown	27/1/2020	31/1/2020	57	61		NA	NA	10/1/2020	31/1/2020	NA	NA	40	61	15/03/2020	105	NO	
+He	China	71		unknown	24/1/2020	1/2/2020	54	62		NA	NA	11/1/2020	1/2/2020	NA	NA	41	62	15/03/2020	105	NO	
+He	China	73		unknown	9/2/2020	12/2/2020	70	73		NA	NA	22/1/2020	12/2/2020	NA	NA	52	73	15/03/2020	105	NO	
+He	China	75		unknown	24/2/2020	29/2/2020	85	90		NA	NA	24/2/2020	29/2/2020	NA	NA	85	90	15/03/2020	105	NO	
+He	China	76		unknown	29/2/2020	4/3/2020	90	94		NA	NA	29/2/2020	4/3/2020	NA	NA	90	94	15/03/2020	105	NO	
+He	China	77		unknown	20/2/2020	3/3/2020	81	93		NA	NA	24/2/2020	25/2/2020	NA	NA	85	86	15/03/2020	105	NO	
