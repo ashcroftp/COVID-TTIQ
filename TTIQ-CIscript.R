@@ -1,4 +1,4 @@
-#' contactTracing-CIscript.R
+#' TTIQ-CIscript.R
 #' Author: Peter Ashcroft, ETH Zurich
 
 library(parallel)
@@ -19,7 +19,7 @@ ParLapply <- function(X, FUN, ..., PARALLEL = TRUE, SEED = NULL) {
   }
 }
 
-getCI <- function() {
+getCI <- function(paramList, output) {
   #' For each infProf param set, we want to know which genDist params are within
   #' the joint 95% CI
   minLLH <- max(infParamsLLH$llh) + max(genParamsLLH$llh) - qchisq(0.95, df = 3+2)/2
@@ -35,16 +35,16 @@ getCI <- function() {
     })
     #' List of dataframes for each idGD: want to extract lower and upper
     df <- cases.inner[[1]]
-    lower <- df$cases
-    upper <- df$cases
+    lower <- df[[output]]
+    upper <- df[[output]]
     for (idGD in seq_along(genParamID[[id]])) {
-      lower <- pmin(lower, cases.inner[[idGD]]$cases)
-      upper <- pmax(upper, cases.inner[[idGD]]$cases)
+      lower <- pmin(lower, cases.inner[[idGD]][[output]])
+      upper <- pmax(upper, cases.inner[[idGD]][[output]])
     }
     #' Add to DF
     df$lower <- lower
     df$upper <- upper
-    return(df[,names(df) != "cases"])
+    return(df[,c(names(paramList), "lower", "upper")])
   })
   #' List of dataframes for each id: want to extract lower and upper
   df <- cases.outer[[1]]
@@ -72,20 +72,18 @@ checkFiles <- function(info.filename) {
   }
 }
 
-# Evaluate ----
+# Evaluate on Euler (HPC) ----
 args <- commandArgs(trailingOnly = TRUE)
 if (length(args) == 0) {
   stop("Missing data filename")
 } else if (length(args) == 1) {
-  #' Evaluate on Euler (HPC)
   info.filename <- args[1]
   checkFiles(info.filename)
   #' Submit the jobs
   #invisible(system(paste("echo", "Submitting the jobs", sep = " ")))
-  invisible(system(paste0("bsub -n 48 -R fullnode \"", paste("R --vanilla --slave < contactTracing-CIscript.R --args", info.filename, "run", sep = " "), "\"")))
+  invisible(system(paste0("bsub -n 48 -R fullnode \"", paste("R --vanilla --slave < TTIQ-CIscript.R --args", info.filename, "run", sep = " "), "\"")))
 
 } else if (length(args) == 2) {
-  #' Evaluate on local machine
   info.filename <- args[1]
   checkFiles(info.filename)
   #' Load the information
@@ -96,6 +94,6 @@ if (length(args) == 0) {
   load("data/infParamsLLH.RData")
   load("data/genParamsLLH.RData")
   #' Execute the job and save final dataframe
-  out.df <- getCI()
+  out.df <- getCI(paramList = paramList, output = output)
   save(out.df, file = out.filename)
 }
