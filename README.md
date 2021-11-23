@@ -1,6 +1,6 @@
 # COVID-TTIQ
 
-**Quantifying the impact of test-trace-isolate-quarantine (TTIQ) strategies on COVID-19 transmission**<br>
+**Test-trace-isolate-quarantine (TTIQ) intervention strategies after symptomatic COVID-19 case identification**<br>
 Peter Ashcroft, Sonja Lehtinen, Sebastian Bonhoeffer<br>
 *Manuscript currently online at https://doi.org/10.1101/2020.12.04.20244004*
 

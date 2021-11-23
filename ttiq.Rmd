@@ -1,5 +1,5 @@
 ---
-title: "Quantifying the impact of test-trace-isolate-quarantine (TTIQ) strategies on COVID-19 transmission"
+title: "Test-trace-isolate-quarantine (TTIQ) intervention strategies after symptomatic COVID-19 case identification"
 author:
   - "Peter Ashcroft\\textsuperscript{1}, Sonja Lehtinen\\textsuperscript{1}, and Sebastian Bonhoeffer\\textsuperscript{1}"
   - "\\textsuperscript{1}*Institute of Integrative Biology, ETH Zurich, Switzerland*"
@@ -10,7 +10,7 @@ output:
     latex_engine: pdflatex
 header-includes:
   - \usepackage{multirow}
-bibliography: 2020-TTIQ.bib
+bibliography: 2021-TTIQ-PLOSONE.bib
 biblio-style: apalike
 ---
 
@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
   echo = FALSE,
   cache = TRUE,
   warning = FALSE,
-  fig.width = 8,
+  fig.width = 7,
   fig.height = 4,
   fig.pos = "ht",
   eval.after = "fig.cap",
@@ -77,93 +77,86 @@ ParLapply <- function(X, FUN, ..., PARALLEL = TRUE, SEED = NULL) {
 ```
 
 # Abstract
-\textbf{Background}
-The test-trace-isolate-quarantine (TTIQ) strategy is used to break chains of transmission during a disease outbreak and is one of the key pillars of the non-pharmaceutical interventions to suppress the ongoing SARS-CoV-2 pandemic.
-Here we quantify how the probability of detecting and isolating a case, the fraction of contacts identified and quarantined, and the delays that are inherent to these processes impact the reduction of disease transmission by TTIQ.\newline
-\textbf{Methods}
-We develop an analytical model of disease transmission that is based on empirical distributions of the timing of SARS-CoV-2 transmission.
-The isolation of confirmed cases and quarantine of their contacts is implemented by truncating their respective infectious periods.
-Using this model we quantify how the parameters describing the coverage of the TTIQ intervention and the inherent delays impact the level of disease transmission.
-We provide an online application to assess the efficacy of TTIQ as a function of these parameters.\newline
-\textbf{Findings}
-Increasing the coverage of testing and isolating index cases has the largest effect on transmission reduction, followed by reducing the delay between symptom onset and index case isolation.
-The impacts of these two changes are substantially greater than the effect of increasing the fraction of contacts which are traced and subsequently quarantined or reducing the delay to quarantine.
-We find that, on average, increasing testing and isolation coverage and reducing the delay to isolation have four-fold and three-fold greater impacts, respectively, on transmission reduction compared to increasing contact tracing coverage.
-Increasing the duration of lookback in which contacts are identifiable has limited impact on TTIQ efficacy.\newline
-\textbf{Interpretation}
-To be a successful intervention strategy, TTIQ requires intensive testing.
-The majority of transmission is prevented by isolating symptomatic individuals, and doing so in a short amount of time.
-Despite the lesser impact, adding contact tracing and quarantine to testing and isolation increases the parameter space in which an epidemic is controllable, and is necessary to control epidemics with a high reproductive number.
-Our results show how TTIQ can be improved and optimised.\newline
-\textbf{Funding}
-This work was supported by the Swiss National Science Foundation.\newline
+The test-trace-isolate-quarantine (TTIQ) strategy, where confirmed-positive pathogen carriers are isolated from the community and their recent close contacts are identified and pre-emptively quarantined, is used to break chains of transmission during a disease outbreak.
+The protocol is frequently followed after an individual presents with disease symptoms, at which point they will be tested for the pathogen.
+This TTIQ strategy, along with hygiene and social distancing measures, make up the non-pharmaceutical interventions that are utilised to suppress the ongoing COVID-19 pandemic.
+Here we develop a tractable mathematical model of disease transmission and the TTIQ intervention to quantify how the probability of detecting and isolating a case following symptom onset, the fraction of contacts that are identified and quarantined, and the delays inherent to these processes impact epidemic growth.
+In the model, the timing of disease transmission and symptom onset, as well as the frequency of asymptomatic cases, is based on empirical distributions of SARS-CoV-2 infection dynamics, while the isolation of confirmed cases and quarantine of their contacts is implemented by truncating their respective infectious periods.
+We find that a successful TTIQ strategy requires intensive testing: the majority of transmission is prevented by isolating symptomatic individuals and doing so in a short amount of time.
+Despite the lesser impact, additional contact tracing and quarantine increases the parameter space in which an epidemic is controllable and is necessary to control epidemics with a high reproductive number.
+TTIQ could remain an important intervention for the foreseeable future of the COVID-19 pandemic due to slow vaccine rollout and highly-transmissible variants with the potential for vaccine escape.
+Our results can be used to assess how TTIQ can be improved and optimised, and the methodology represents an improvement over previous quantification methods that is applicable to future epidemic scenarios.\newline
 \textbf{Keywords}
 SARS-CoV-2; COVID-19; Contact tracing; Quarantine; Isolation; TTIQ; Intervention.
 
 
 # Introduction
-Individuals who are confirmed as infected with severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) are isolated from the population to prevent further transmission.
+Individuals who are confirmed as infected with severe acute respiratory syndrome coronavirus 2 (SARS-CoV-2) are isolated from the community to prevent further transmission.
 Individuals who have been in recent close contact with an infected individual have an increased risk of being infected themselves.
 By identifying the potentially-infected contacts through contact tracing and eventually quarantining them, transmission chains can be broken.
 Thus contact tracing is an essential public health tool for controlling epidemics \citep{WHO:contactTracing}.
 The strategy of testing to identify infected cases, isolating them to prevent further transmission, and tracing \& quarantining their recent close contacts is known as test-trace-isolate-quarantine (TTIQ) \citep{salathe:SwissMed.Wkly.:2020}.
-This strategy is a fundamental non-pharmaceutical intervention which is used globally to control the ongoing SARS-CoV-2 pandemic \citep{kucharski:TheLancetInfectiousDiseases:2020}.
+This strategy is a key non-pharmaceutical intervention which is used globally to control the ongoing COVID-19 pandemic \citep{kucharski:TheLancetInfectiousDiseases:2020}.
 
-Testing typically occurs once an individual develops symptoms of coronavirus disease 2019 (COVID-19).
-As presymptomatic transmission makes up approximately 40\% of total onward transmission from eventually-symptomatic infecteds \citep{he:NatMed:2020,ashcroft:SMW:2020,ferretti:medRxiv:2020}, it would be possible for the number of secondary infections to be more than halved if infected individuals are isolated from the community at the time of symptom onset. 
-However, as testing follows from symptoms, the testing \& isolating strategy without subsequent contact tracing \& quarantine is unlikely to capture persistently-asymptomatic infections which make up around 20\% of all infecteds \citep{buitrago-garcia:PLOSMedicine:2020}, and thus isolating 100\% of infecteds at symptom onset would not be possible.
+Testing typically occurs once an individual develops symptoms indicative of coronavirus disease 2019 (COVID-19).
+As presymptomatic transmission makes up approximately 40\% of total onward transmission from eventually-symptomatic infecteds \citep{he:NatMed:2020,ashcroft:SMW:2020,ferretti:medRxiv:2020}, it would be possible for the number of secondary infections to be more than halved if infected individuals were isolated from the community at the time of symptom onset. 
+However, as testing follows from symptoms in this scenario, the testing \& isolating strategy without subsequent contact tracing \& quarantine is unlikely to capture persistently-asymptomatic infections which make up around 20\% of all infecteds \citep{buitrago-garcia:PLOSMedicine:2020}, and thus isolating 100\% of infecteds at symptom onset would not be possible.
 
-Contact tracing \& quarantine have the potential to be effective interventions against the spread of COVID-19 because of the high frequency of presymptomatic and asymptomatic transmission from recently-infected individuals \citep{moghadas:PNAS:2020}.
+Contact tracing \& quarantine have the potential to be effective interventions against the spread of COVID-19 because of the high frequency of presymptomatic and asymptomatic transmission from recently-infected individuals \citep{moghadas:Proc.Natl.Acad.Sci.U.S.A.:2020}.
 Potentially-infected contacts can be identified and quarantined before they would be isolated as a result of developing symptoms and/or receiving a positive test result, such that their onward transmission is reduced.
 This is exemplified during super-spreader events \citep{riou:Eurosurveillance:2020,endo:WellcomeOpenRes:2020a,adam:Nat.Med.:2020} where large numbers of potentially-infected contacts can be quarantined to prevent widespread community transmission.
-Tracing \& quarantine does not depend on symptom development, hence this strategy is capable of reducing onward transmission even from asymptomatically-infected individuals.
+Tracing \& quarantine do not depend on symptom development, hence this strategy is capable of reducing onward transmission even from asymptomatically-infected individuals.
 
-TTIQ strategies are not perfect: each stage in the process is subject to delays and uncertainties and it would be impossible to prevent all onward transmission through TTIQ alone \citep{ferretti:Science:2020,kucharski:TheLancetInfectiousDiseases:2020,kretzschmar:TheLancetPublicHealth:2020,quilty:TheLancetPublicHealth:2021,ashcroft:eLife:2021}.
-Furthermore, in the presence of widespread community transmission the contact tracers may be overwhelmed by the volume of cases.
-In this scenario it is important to optimise the resources (i.e. the person hours of the contact tracers) to minimise onward transmission.
+TTIQ strategies are not perfect: each stage in the process is subject to delays and uncertainties and it would be impossible to prevent all transmission through TTIQ alone \citep{ferretti:Science:2020,kucharski:TheLancetInfectiousDiseases:2020,kretzschmar:TheLancetPublicHealth:2020,contreras:NatCommun:2021,quilty:TheLancetPublicHealth:2021,ashcroft:eLife:2021}.
+Here we will systematically assess how the probability of identifying and isolating a symptomatic case, the fraction of contacts identified and quarantined, and the delays that are inherent to these processes impact disease transmission under TTIQ interventions.
+From this quantification we can determine how TTIQ can be improved and optimised.
+For example, in the presence of widespread community transmission when contact tracers may be overwhelmed by the volume of cases, it is important to optimise the available resources (e.g. the person hours of the contact tracers) to minimise onward transmission.
 
-In a previous study of TTIQ efficacy, \citet{ferretti:Science:2020} used an approach based on the empirically-observed timing of transmission events -- but with substantial approximations around the TTIQ process -- to get to an analytically tractable prediction of the impact of TTIQ on SARS-CoV-2 transmission.
-They concluded that widespread digital contact tracing (with minimal delay between index case identification and quarantine of secondary contacts) would be necessary to reduce the effective reproduction number below one and to bring an outbreak under control.
-\citet{kucharski:TheLancetInfectiousDiseases:2020} simulated the impact of intervention strategies using an agent-based model, where each individual in a population can be infected by and subsequently infect another individual in their own contact network.
-While the TTIQ process is more accurately implemented than in \citet{ferretti:Science:2020}, they did not use empirical distributions to describe the timing of transmission, which is crucial for quantifying the impact of isolation and quarantine.
-\citet{kretzschmar:TheLancetPublicHealth:2020} opted to simulate a discrete-time branching process model of transmission and TTIQ.
-While they explicitly accounted for the timing of infection events and accurately described the TTIQ process, they predominantly focussed on assessing the role of digital contact tracing based on mobile applications.
-They also conclude that minimising delays is the key to successful TTIQ intervention.
-Finally, \citet{grantz:medRxiv:2020} employed a discrete-time Markov chain model to simulate how infecteds in the community can be detected and isolated and have their contacts quarantined.
-Through simplifications regarding the timing of infection events, they could compute the effective reproductive number in the presence of TTIQ interventions and evaluate how changes to TTIQ accuracy and timing impacts this reproductive number.
-They concluded that effective TTIQ interventions need to be strong in the ``test'' component, as case detection underlies all other TTIQ components.
+Previous studies employing different approaches have begun to address these questions.
+\citet{ferretti:Science:2020} concluded that minimal delay between index case identification and quarantine of secondary contacts (as achieved with widespread digital contact tracing) is necessary to reduce the effective reproduction number below one and to bring an outbreak under control.
+\citet{kretzschmar:TheLancetPublicHealth:2020} also predominantly focussed on digital contact tracing based on mobile applications, confirming the conclusions of \citet{ferretti:Science:2020} that minimising delays is the key to a successful TTIQ intervention.
+Through simulations based on real-world contact networks, \citet{kucharski:TheLancetInfectiousDiseases:2020} concluded that $>75\%$ of contacts have to be quarantined (through manual contact tracing or digital app-based tracing) to reduce the effective reproduction number below one.
+Finally, \citet{grantz:PLOSMedicine:2021} employed a discrete-time Markov chain model of transmission, isolation, and contact tracing to conclude that effective TTIQ interventions need to be strong in the "test" component, as case detection underlies all other TTIQ components.
 
-What is missing in the literature is a systematic approach to assess the impact of each step in a TTIQ intervention, which captures what we know about the timing of disease transmission but makes minimal assumptions about the remaining population dynamics.
-In this paper we build on our previous work in which we have quantified the impact of quarantine duration and highlighted the optimal use of test-and-release strategies \citep{ashcroft:eLife:2021}.
-With this mathematical framework, which uses the empirically-observed distributions of transmission timing from \citet{ferretti:medRxiv:2020} to determine when infections occur, we calculate how the probability of identifying and isolating a case, the fraction of contacts identified and quarantined, and the delays that are inherent to these processes impact disease transmission under TTIQ interventions.
+In this paper we build on our previous modelling work in which we have quantified the impact of quarantine duration and highlighted the optimal use of test-and-release strategies \citep{ashcroft:eLife:2021}.
+With this mathematical framework, which uses the empirically-observed distributions of transmission timing from \citet{ferretti:medRxiv:2020} to determine when infections occur, we systematically quantify the effective reproduction number in the presence of TTIQ.
 
+Although a global roll-out of vaccines against SARS-CoV-2 is under way, non-pharmaceutical interventions are likely to remain crucial to epidemic control for the foreseeable future \citep{moore:TheLancetInfectiousDiseases:2021,sonabend:TheLancet:2021}.
+Furthermore, we are still at risk from new variants which are highly-transmissible and/or less impeded by current vaccines and acquired immunity.
+Our framework is flexible enough to quantify the limitations of TTIQ in these scenarios, as well as provide insight about how these interventions can be optimised.
 
-# Methods
+# Materials and methods
 ## Transmission model
 Our transmission model is based on a branching process that starts with a single individual who is infected with SARS-CoV-2.
-This individual could be persistently asymptomatic (which make up a fraction $a$ of infections), otherwise they are classed as symptomatic ($1-a$).
+The branching process model assumes discrete generations of transmission and an infinite population size, such that the expected number of secondary infections per infected is the same across generations.
+We therefore do not explicitly include the depletion of susceptibles due to death or acquired immunity during epidemic spread and/or vaccination campaigns.
+The initial infected individual could be persistently asymptomatic (which make up a fraction $a$ of infections), otherwise they are classed as symptomatic ($1-a$).
 To be clear, presymptomatic individuals who will go on to develop symptoms are included in the symptomatic fraction.
-\citet{buitrago-garcia:PLOSMedicine:2020} have estimated $a \sim 20\%$ based on a meta-analysis of 79 studies.
+\citet{buitrago-garcia:PLOSMedicine:2020} have estimated $a \approx 20\%$ based on a meta-analysis of 79 studies.
 
 The timing of onward infections in the model is determined by empirically-observed distributions of transmission dynamics from \citet{ferretti:medRxiv:2020}.
 These distributions are:
 the generation time distribution (describing the time interval between the infection of an index case and secondary case);
 the infectivity profile (describing the time interval between the onset of symptoms in the index case and infection of the secondary case);
 and the incubation period distribution (describing the time between the infection of an individual and the onset of their symptoms).
-These distributions (shown in Figure \ref{fig:distributions}) are based on large sets of transmission pairs and minimal assumptions about the relationship between infectiousness and symptoms, which would otherwise push the variance of the resulting generation time distribution towards its upper or lower extremes \citep{lehtinen:Interface:2021}.
-In the model we assume that these timing distributions are the same between asymptomatic and symptomatic cases.
-The fraction of transmission that occurs before symptom onset in symptomatically-infected individuals is defined by the cumulative infectivity profile up to the time of symptom onset.
+These distributions (shown in Fig I in \nameref{S1_Appendix}) are based on large sets of transmission pairs and minimal assumptions about the relationship between infectiousness and symptoms, which would otherwise push the variance of the resulting generation time distribution towards its upper or lower extremes \citep{lehtinen:Interface:2021}.
+The fraction of transmission that occurs before symptom onset in symptomatically-infected individuals is defined by the cumulative infectivity profile (or generation time) up to the time of symptom onset.
+The infectivity profile and incubation periods are undefined (and unnecessary) for asymptomatic cases, and in the model we make the simplifying assumption that the generation time distribution is the same between asymptomatic and symptomatic cases.
 
-Using this branching process model we calculate the number of infected individuals in the second generation (secondary infections) and in the third generation (tertiary infections) after the introduction of the first infected individual.
+Using the branching process model we calculate the number of infected individuals in the second generation (secondary infections) and in the third generation (tertiary infections) after the introduction of the first infected individual.
 We also keep track of the time at which the transmission events occur.
 In our analysis we do not simulate the branching process explicitly, but instead use a statistical description of the dynamics.
 
 The expected number of secondary infections per infected depends on the transmissibility of the virus (e.g. as captured by the basic reproductive number $R_0$), as well as the current level of interventions in place to mitigate the spread of the virus.
 As we are interested in quantifying the effects of TTIQ strategies, we introduce the parameter $R$ which represents the effective reproductive number of the virus in the presence of interventions such as mask-wearing, social distancing, school closures etc., but in the absence of isolation and quarantine.
+We refer to this $R$ parameter as \emph{"the baseline $R$-value in the absence of TTIQ"}, and we have $R \le R_0$ due to the presence of the non-TTIQ preventative measures.
+Furthermore, the baseline reproductive number $R$ should be greater than or equal to the currently observed effective reproductive number, which includes the impact of in-place TTIQ measures.
 In the absence of TTIQ interventions, we would expect $R$ infections in the second generation, and $R^2$ infections in the third generation.
+This $R$-value will depend on the strain of SARS-CoV-2 that is considered, for example new variants of concern such as Alpha (B.1.1.7) and Delta (B.1.617.2) are significantly more transmissible than pre-existing variants \citep{davies:Science:2021,althaus:medRxiv:2021,alizon:medRxiv:2021}.
+The $R$-value will also be proportional to the size of the susceptible pool -- which can be depleted due to death or acquired immunity -- such that epidemic spread and vaccination campaigns will result in a smaller baseline $R$-value.
 
 Furthermore, this $R$-value represents the average effective reproductive number across asymptomatic and symptomatic infections, i.e. $R = aR_a+(1-a)R_s$, where $R_a$ and $R_s$ are the expected number of individuals who are directly infected by an asymptomatic or symptomatic individual in the absence of TTIQ, respectively.
-We would expect that $R_a \le R_s$ \citep{buitrago-garcia:PLOSMedicine:2020}.
+From the literature, we would expect that $R_a \le R_s$ \citep{buitrago-garcia:PLOSMedicine:2020}.
 We can further define the parameter $\alpha = aR_a/R$ as the fraction of all transmission that originates from asymptomatically-infected individuals in the absence of TTIQ.
 This fraction has the property that if asymptomatic and symptomatic individuals are equally transmissive ($R_a = R_s$), then $\alpha$ is just the fraction of asymptomatic individuals ($\alpha = a$).
 If asymptomatic individuals are less infectious ($R_a < R_s$), then $\alpha < a$.
@@ -180,41 +173,52 @@ Only contacts that occur during the contact tracing window can be identified.
 This window extends from $\\tau$ days before the index case developed symptoms (i.e. $t_{S_1}-\\tau$) to the time at which the index case was isolated (i.e. $t_{S_1}+\\Delta_1$).
 A fraction $g$ of the contacts who were infected within the contact tracing window are quarantined.
 The remaining individuals are not quarantined, but could be isolated if they are later detected as an index case.
-The distributions shown here are schematic representations of those shown in Fig. \\ref{fig:distributions}."
-
+The distributions shown here are schematic representations of the infectivity profile and/or generation time interval, which are quantitatively displayed in Fig I in \\nameref{S1_Appendix}.
+These distributions reflect an individual's infectiousness as a function of time."
 ggdraw() + draw_image(image_read_pdf("TTIQ-schematic.pdf", density = 600), scale = 1.0)
 ```
 
+
 ## Testing \& isolating
-Individuals who develop symptoms of COVID-19 can be tested and subsequently isolated from the population.
+Individuals who develop symptoms that are indicative of COVID-19 can be tested and subsequently isolated from the population.
 Testing \& isolating acts to reduce the number of secondary infections per index case by shortening the duration in which the index case can infect susceptible individuals, i.e. isolation truncates the distribution of infection times (Fig. \ref{fig:schematic}A).
-We assume that isolation happens after a delay of $\Delta_1$ days after symptom onset, and that only a fraction $f$ of symptomatic individuals are isolated.
+We assume that isolation happens after a fixed delay of $\Delta_1$ days after symptom onset, and that only a fraction $f$ of symptomatic individuals are isolated.
 This incomplete coverage can be attributed to symptom misdiagnosis, a failure or unwillingness to get tested if symptomatic, a false-negative test result, or non-adherence to the isolation protocol.
+The fraction isolated $f$ can also be reduced by false-negative results based on potentially less-sensitive self-administered tests, which could prevent infected individuals from seeking confirmatory point-of-care tests.
 For those individuals who are isolated, we assume that they cannot infect further for the remaining duration of their infectious period.
-In the model, asymptomatic individuals are not tested and they do not isolate.
+This assumption of perfect adherence to isolation once tested positive will lead to an overestimation of TTIQ effectiveness.
+Any lack of adherence to isolation could be accounted for in the model by reducing $f$, as long as this lack of adherence also means that their contacts are not traced.
+In the model, asymptomatic individuals are not subject to symptomatic testing and isolation. 
+These asymptomatic individuals could be tested during surveillance (mass-testing or surge testing), and isolation would follow as above if a positive test result is obtained.
+However, in the scenario we are considering, only symptomatically-infected individuals will be tested and isolated.
 
 The infected individuals who are not isolated will infect $R_a$ or $R_s$ secondary contacts, depending on whether they are classified as asymptomatic or symptomatic. 
 Isolated symptomatic cases will infect $P(\Delta_1) \times R_s$ secondary contacts, where $0 \le P(\Delta_1) \le 1$ is the cumulative fraction of the infection time distribution that lies before the isolation time $\Delta_1$ (see Fig. \ref{fig:schematic}A).
 Averaging across these scenarios gives the expected number of secondary infections per infected case.
 We can repeat this analysis for each of the secondary infections to calculate the number tertiary infections under testing \& isolation.
-
+See \nameref{S1_Appendix} for the full calculation.
 
 ## Contact tracing \& quarantine
-When an index case is identified by testing, they can be interviewed by contact tracers to determine whom they have potentially infected, with the aim of quarantining these exposed individuals.
+When a symptomatic index case is identified by testing, they can be interviewed by contact tracers to determine whom they have potentially infected, with the aim of quarantining these exposed individuals.
 The contact tracers focus on a specific time window of infection to identify the contacts with highest risk of being infected.
 In our model this window extends to $\tau$ days before symptom onset in the index case.
 It is unlikely that every contact within this time window is memorable or traceable, so we assume that only a fraction $g$ of the secondary contacts within this window are eventually quarantined.
-Quarantine begins after a delay of $\Delta_2$ days after the isolation of the index case, representing the time required for the contact to be identified by contact tracers and to enter quarantine.
+Quarantine begins after a fixed delay of $\Delta_2$ days after the isolation of the index case, representing the time required for the contact to be identified by contact tracers and to enter quarantine.
 For those who are quarantined, we assume that they cannot infect further for the remaining duration of their infectious period.
+This assumption of perfect adherence to quarantined once identified through contact tracing will lead to an overestimation of TTIQ effectiveness.
+However, any lack of adherence to isolation is easily accounted for in the model by reducing $g$.
 Importantly, quarantine occurs independently of whether these secondary infections are asymptomatic or will eventually develop symptoms.
+Furthermore, contact tracing can also achieved through digital app-based technology \citep{ferretti:Science:2020}.
+The proposed model applies to both manual and digital contact tracing, but we note that we would expect different parameter combinations for digital versus manual contact tracing, for example reduced delays $\Delta_2$ for digital contact tracing \citep{ferretti:Science:2020,kretzschmar:TheLancetPublicHealth:2020}.
+
 Quarantine shortens the duration in which the identified secondary contacts can transmit further to tertiary contacts (Fig. \ref{fig:schematic}B).
 For each quarantined secondary contact, we calculate the number of onward infections by computing the cumulative fraction of the infection time distribution before quarantine begins and multiplying by $R_a$ or $R_s$, depending on whether the secondary contact is classified as asymptomatic or symptomatic.
 
-If a secondary contact is not quarantined, then they could be detected after symptom onset as a new index case, and subsequently isolated.
+If a secondary contact is not quarantined, then they could be detected after symptom onset (if not asymptomatic) as a new index case and subsequently isolated.
 The number of onward infections that result from these individuals is typically higher than for those who are quarantined, as they have to wait until symptom onset before they can be isolated, or they may not develop symptoms at all in which case they are not isolated.
 Finally, some secondary contacts are not quarantined or isolated, and will infect $R_a$ or $R_s$ tertiary contacts.
 The average number of infections caused by the quarantined, isolated, and non-isolated secondary contacts is then the number of tertiary infections per index case.
-See Appendix for the full calculation.
+See \nameref{S1_Appendix} for the full calculation.
 
 ## TTIQ parameters
 The efficacy of the TTIQ interventions depends on how quickly and accurately they are implemented.
@@ -234,29 +238,32 @@ $\Delta_2$ & Time delay between isolation of the index case and the start of qua
 \label{tab:TTIQ-params}
 \end{table}
 
+Due to the high between-country variability of testing coverage ($f$), contact tracing success ($g$), and the respective delays, as well as the lack of publicly-available data on these topics, we keep these values as free parameters in our analyses.
+
+In all analyses we focus on fixed TTIQ parameter values for all individuals in the branching process, as opposed to sampling each individual's parameters from a distribution.
+This simplifies the visualisation and interpretation of results.
+We expect that the averaged results when using distributed parameters would closely reflect our fixed-value results, but would lead to increased variance/uncertainty in our estimates.
+Heterogeneity in the individuals' baseline reproductive number (due to contact number and transmission heterogeneities) is addressed in \nameref{S3_Appendix}.
 
 ## Effective reproduction number
 The effectiveness of the TTIQ intervention can be quantified by calculating the effective reproduction number in the presence of the interventions, $R_{\rm TTIQ}$, which describes the expected number of secondary infections per infected individual.
 If $R_{\rm TTIQ} > 1$ then the epidemic is growing, while a value of less than one means the epidemic is being suppressed.
-For our branching process model, we define the reproductive number as $R_{\rm TTIQ} = n_3/n_2$, where $n_2$ and $n_3$ are the expected number of tertiary and secondary infections per index case, respectively.
+For our branching process model, we define the reproductive number as $R_{\rm TTIQ} = n_3/n_2$, where $n_2$ and $n_3$ are the expected number of secondary and tertiary infections per index case, respectively.
 In other words, we define the reproductive number as the average number of infecteds in the third generation per infected in the second generation.
 It is necessary to work with the third generation (as opposed to just the first and second generations) as this is where the impact of contact tracing and quarantine is first observed.
 Under strategies of testing \& isolation alone (i.e. no contact tracing), we use the notation $R_{\rm TI}$ for clarity.
 
 ## Computing uncertainties
-As shown in Fig. \ref{fig:distributions}B and C, there is significant uncertainty in the variance of the inferred generation time distribution and infectivity profile.
+As shown in Fig I in \nameref{S1_Appendix}, there is considerable uncertainty in the variance of the inferred generation time distribution and infectivity profile.
 We propagate this uncertainty into our calculation of $R_{\rm TTIQ}$.
 Briefly, we sample parameter combinations that make up the 95\% confidence interval of the generation time distribution and infectivity profile, and then compute $R_{\rm TTIQ}$ for each parameter set.
-The maximum and minimum of these values then describe the confidence interval for the level of transmission
-Complete details are provided in the Appendix.
+The maximum and minimum of these values then describe the confidence interval for the level of transmission.
+Complete details are provided in \nameref{S1_Appendix}.
 
 ## Interactive app
 To complement the results in this manuscript, and to allow readers to investigate different TTIQ parameter settings, we have developed an online interactive application.
 This can be found at \url{https://ibz-shiny.ethz.ch/covidDashboard/ttiq}.
 
-## Role of the funding source
-The funders of the study had no role in study design, data collection, data analysis, data interpretation, writing of the manuscript, or the decision to submit for publication.
-All authors had full access to all the data in the study and were responsible for the decision to submit the manuscript for publication.
 
 ```{r incubation-distribution-definition-Ferretti, include = F}
 # #' Code from Ferretti et al.
@@ -1065,19 +1072,99 @@ getTertiaryCasesNoTracing <- function(paramList, times, infProf.df, integral.df)
 ```
 
 # Results
-## Reducing transmission by testing \& isolating
-Based on our transmission model, testing \& isolating alone (i.e. without additional contact tracing \& quarantine) is capable of suppressing epidemic growth ($R_{\rm TI}<1$) with a baseline $R$-value in the absence of TTIQ of up to 1.76 [95\% confidence interval (CI): 1.57,1.98], assuming that asymptomatic individuals contribute $\alpha=20\%$ of infections (Fig. \ref{fig:max-asymptomatic}).
+## Reducing transmission by testing \& isolating symptomatic cases
+Based on our transmission model, testing \& isolating of symptomatic cases alone (i.e. without additional contact tracing \& quarantine) is capable of suppressing epidemic growth ($R_{\rm TI}<1$) with a \emph{baseline $R$-value in the absence of TTIQ} of up to 1.76 [95\% confidence interval (CI): 1.57,1.98], assuming that asymptomatic individuals contribute $\alpha=20\%$ of infections (Fig II in \nameref{S2_Appendix}).
 To achieve this level of suppression, each symptomatic individual ($f=100\%$) would have to isolate immediately at symptom onset ($\Delta_1=0$ days), representing the upper limit of testing \& isolation performance.
-We again note that the baseline $R$ parameter depends on the current suppression measures against SARS-CoV-2 transmission (social distancing, mask wearing, home office, etc., but not TTIQ interventions), as well as seasonality and levels of immunity/vaccination.
-Importantly, this predicted upper limit of $R=1.76$ is below the estimated $R_0$ of SARS-CoV-2 ($R_0 \approx 2.5$; \citet{riou:Eurosurveillance:2020}).
-Hence, testing \& isolating alone as a control strategy would not have been sufficient to prevent epidemic growth, even before the emergence of more transmissible variants.
+We again note that the baseline $R$ parameter depends on the current suppression measures against SARS-CoV-2 transmission (social distancing, mask wearing, home office, etc., but not TTIQ interventions), as well as seasonality, the variant under consideration, and levels of immunity/vaccination.
+Importantly, this predicted upper limit of $R=1.76$ is below the estimated $R_0$ of SARS-CoV-2 [$R_0 \approx 2.5$  \citep{riou:Eurosurveillance:2020} -- 5.7 \citep{sanche:Emerg.Infect.Dis.:2020}].
+Hence, testing \& isolating of symptomatic cases alone as a control strategy would not have been sufficient to prevent epidemic growth, even before the emergence of more transmissible variants.
 One would have to reduce the number of susceptible individuals in the population by at least 30\% (e.g. through vaccination) for testing \& isolating alone to be a viable strategy.
+
+```{r tertiaryCases-noTracing-density, include = F}
+#' Critical region where epidemic is controlled
+paramList <- list(
+  alpha = 0.2,
+  f = seq(0,1,0.05),
+  Delta1 = seq(0,6,0.2),
+  R = seq(1.1, 1.5, 0.1)
+)
+load("data/savedDistributions.RData")
+tertiaryCasesMLE <- getTertiaryCasesNoTracing(paramList = paramList, times = times,
+                                              infProf.df = infProfMLE, integral.df = integralMLE)
+
+R.plotVals <- c("1.1","1.3","1.5")
+
+#' Prepare and plot
+df <- tertiaryCasesMLE
+df$f <- as.numeric(levels(df$f))[df$f]
+df$Delta1 <- as.numeric(levels(df$Delta1))[df$Delta1]
+df$R <- as.character(df$R)
+
+cases.min <- 0.5
+cases.max <- 1.5
+
+tertiarySummaryPlot <- ggplot(df[df$R %in% R.plotVals,], aes(x = f, y = Delta1, group = R)) +
+  geom_raster(aes(fill = ter.per.sec), interpolate = T) +
+  geom_contour(aes(z = ter.per.sec), colour = "black", size = lineSize, breaks = 1) +
+  #scale_fill_gradientn(colours = c("seagreen","white","white","white","salmon"),
+  scale_fill_gradientn(colours = c("#0072B2","white","white","white","#E69F00"),
+                       name = expression(R[TI]),
+                       values = scales::rescale(c(cases.min,1-.Machine$double.eps,1,1+.Machine$double.eps,cases.max)),
+                       limits = c(cases.min,cases.max),
+                       breaks = c(0.5,1.0,1.5)) +
+  facet_grid(~R, labeller = label_bquote(cols = R~"="~.(R))) +
+  scale_x_continuous(labels = scales::percent) +
+  coord_cartesian(xlim = c(0,1), ylim = c(0, 4), expand = F) +
+  labs(x = expression("fraction of symptomatic individuals isolated" ~ (f)),
+       y = expression(atop("delay to isolation" ~ (Delta[1]),"(days after symptoms)"))) +
+  plotTheme +
+  theme(legend.position = "right", legend.background = element_blank(), panel.spacing = unit(1.5, "lines"))
+
+#' Do we add CI to the plot?
+addCI <- T
+if (addCI) {
+  out.filename <- "data/tertiaryCases-noTracing-density-CI.RData"
+  if (file.exists(out.filename)) {
+    #' Load the data, format, and add layer to plot
+    load(out.filename)
+    tertiaryCasesCI <- out.df
+    tertiaryCasesCI$f <- as.numeric(levels(tertiaryCasesCI$f))[tertiaryCasesCI$f]
+    df <- merge(df,tertiaryCasesCI)
+    tertiarySummaryPlot <- tertiarySummaryPlot +
+      geom_contour(data = df[df$R %in% R.plotVals,], aes(z = lower), colour = "black", linetype = "dashed", breaks = 1) +
+      geom_contour(data = df[df$R %in% R.plotVals,], aes(z = upper), colour = "black", linetype = "dashed", breaks = 1)
+  } else {
+    print(paste("File", out.filename, "is missing."))
+    print("Pass the following info file to TTIQ-CIscript.R to generate confidence intervals, and then try again.")
+    #' Create file "info-for-script_xx.RData" here
+    #' First we create the function which accepts id and idGD and returns a
+    #' dataframe for the number of cases for the given parameter set
+    func <- function(id, idGD) {
+      getTertiaryCasesNoTracing(paramList = paramList, times = times,
+                                infProf.df = infProfLLH[[id]], integral.df = integralLLH[[idGD]])
+    }
+    #' Which output do we want to construct the CI for?
+    output <- "ter.per.sec"
+    #' Now add the function(s), parameter list, and the output filename
+    info.filename <- "info-for-script_2.RData"
+    save(func, getTertiaryCasesNoTracing, output, paramList, out.filename, file = info.filename)
+    print(paste("Info file is", info.filename))
+    print(paste("The output file", out.filename, "can be generated by executing:"))
+    #' R --vanilla --slave < TTIQ-CIscript.R --args info-for-script_xx.RData run
+    print(paste("R --vanilla --slave < TTIQ-CIscript.R --args", info.filename, "run"))
+    addCI <- FALSE
+  }
+}
+
+#' Save the source data
+write.csv(df, file = "data/TTIQ-Fig2A-sourcedata.csv", row.names = F, quote = F)
+```
 
 ```{r tertiaryCases-noTracing-line, include = F}
 #' Tertiary cases as a function of f and Delta1
 paramList <- list(
   alpha = 0.2,
-  f = seq(0, 1, 0.05),
+  f = seq(0,1,0.05),
   Delta1 = seq(0,4,1),
   R = seq(1.1, 1.5, 0.1)
 )
@@ -1086,8 +1173,8 @@ tertiaryCasesMLE <- getTertiaryCasesNoTracing(paramList = paramList, times = tim
                                               infProf.df = infProfMLE,
                                               integral.df = integralMLE)
 
-R.plotVals <- c("1.1", "1.3", "1.5")
-Delta1.plotVals <- c("0", "2", "4")
+R.plotVals <- c("1.1","1.3","1.5")
+Delta1.plotVals <- c("0","2","4")
 
 #' Prepare and plot
 df <- tertiaryCasesMLE
@@ -1097,13 +1184,16 @@ tertiaryCasesPlot <- ggplot(df[df$R %in% R.plotVals & df$Delta1 %in% Delta1.plot
   geom_line(size = lineSize) +
   facet_grid(~R) +
   scale_color_manual(values = colorRampPalette(brewer.pal(9, "Oranges"))(12)[c(5,8,10)],
-    name = expression("delay" ~ (Delta[1])),
-                      aesthetics = c("colour","fill"),
-                      labels = dayLabels(levels(df$Delta1))) +
+                     #name = expression("delay" ~ (Delta[1])),
+                     name = expression(~Delta[1]),
+                     aesthetics = c("colour","fill"),
+                     #labels = dayLabels(levels(df$Delta1))
+                     labels = set_names(paste0(levels(df$Delta1),"d"), nm = levels(df$Delta1))
+                     ) +
   scale_x_continuous(labels = scales::percent) +
   coord_cartesian(xlim = c(0,1), ylim = c(0.45,1.55), expand = F) +
   labs(x = expression("fraction of symptomatic individuals isolated" ~ (f)), y = expression(R[TI])) +
-  plotTheme + theme(legend.position = "right", panel.spacing = unit(1.5, "lines"), strip.background = element_blank(), strip.text = element_blank())
+  plotTheme + theme(legend.position = "right", legend.background = element_blank(), panel.spacing = unit(1.5, "lines"), strip.background = element_blank(), strip.text = element_blank())
 
 #' Do we add CI to the plot?
 addCI <- T
@@ -1141,110 +1231,45 @@ if (addCI) {
   }
 }
 
-# #' Read values
-# dat <- df[df$R == "1.1" & df$Delta1 == "0",]
-# sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
-# dat <- df[df$R == "1.1" & df$Delta1 == "2",]
-# sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
-# dat <- df[df$R == "1.1" & df$Delta1 == "4",]
-# sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
-# dat <- df[df$R == "1.5" & df$Delta1 == "0",]
-# sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
-# dat <- df[df$R == "1.5" & df$Delta1 == "2",]
-# sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
+#' Save the source data
+write.csv(df, file = "data/TTIQ-Fig2B-sourcedata.csv", row.names = F, quote = F)
+
+#' Read values
+dat <- df[df$R == "1.1" & df$Delta1 == "0",]
+sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
+dat <- df[df$R == "1.1" & df$Delta1 == "2",]
+sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
+dat <- df[df$R == "1.1" & df$Delta1 == "4",]
+sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
+dat <- df[df$R == "1.5" & df$Delta1 == "0",]
+sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
+dat <- df[df$R == "1.5" & df$Delta1 == "2",]
+sapply(c("ter.per.sec","lower","upper"), function(var) round(approx(x = dat[[var]], y = dat$f, xout = 1)$y, digits = 2))
 ```
 
-```{r tertiaryCases-noTracing-density, include = F}
-#' Critical region where epidemic is controlled
-paramList <- list(
-  alpha = 0.2,
-  f = seq(0, 1, 0.05),
-  Delta1 = seq(0,6,0.2),
-  R = seq(1.1, 1.5, 0.1)
-)
-load("data/savedDistributions.RData")
-tertiaryCasesMLE <- getTertiaryCasesNoTracing(paramList = paramList, times = times,
-                                              infProf.df = infProfMLE, integral.df = integralMLE)
-
-R.plotVals <- c("1.1", "1.3", "1.5")
-
-#' Prepare and plot
-df <- tertiaryCasesMLE
-df$f <- as.numeric(levels(df$f))[df$f]
-df$Delta1 <- as.numeric(levels(df$Delta1))[df$Delta1]
-df$R <- as.character(df$R)
-
-cases.min <- 0.5
-cases.max <- 1.5
-
-tertiarySummaryPlot <- ggplot(df[df$R %in% R.plotVals,], aes(x = f, y = Delta1, group = R)) +
-  geom_raster(aes(fill = ter.per.sec), interpolate = T) +
-  geom_contour(aes(z = ter.per.sec), colour = "black", size = lineSize, breaks = 1) +
-  scale_fill_gradientn(colours = c("seagreen","white","white","white","salmon"),
-                       name = expression(R[TI]),
-                       values = scales::rescale(c(cases.min,1-.Machine$double.eps,1,1+.Machine$double.eps,cases.max)),
-                       limits = c(cases.min,cases.max)) +
-  facet_grid(~R, labeller = label_bquote(cols = R~"="~.(R))) +
-  scale_x_continuous(labels = scales::percent) +
-  coord_cartesian(xlim = c(0,1), ylim = c(0, 4), expand = F) +
-  labs(x = expression("fraction of symptomatic individuals isolated" ~ (f)),
-       y = expression(atop("delay to isolation" ~ (Delta[1]),"(days after symptoms)"))) +
-  plotTheme +
-  theme(legend.position = "right", panel.spacing = unit(1.5, "lines"))
-
-#' Do we add CI to the plot?
-addCI <- T
-if (addCI) {
-  out.filename <- "data/tertiaryCases-noTracing-density-CI.RData"
-  if (file.exists(out.filename)) {
-    #' Load the data, format, and add layer to plot
-    load(out.filename)
-    tertiaryCasesCI <- out.df
-    tertiaryCasesCI$f <- as.numeric(levels(tertiaryCasesCI$f))[tertiaryCasesCI$f]
-    df <- merge(df,tertiaryCasesCI)
-    tertiarySummaryPlot <- tertiarySummaryPlot +
-      geom_contour(data = df[df$R %in% R.plotVals,], aes(z = lower), colour = "black", linetype = "dashed", breaks = 1) +
-      geom_contour(data = df[df$R %in% R.plotVals,], aes(z = upper), colour = "black", linetype = "dashed", breaks = 1)
-  } else {
-    print(paste("File", out.filename, "is missing."))
-    print("Pass the following info file to TTIQ-CIscript.R to generate confidence intervals, and then try again.")
-    #' Create file "info-for-script_xx.RData" here
-    #' First we create the function which accepts id and idGD and returns a
-    #' dataframe for the number of cases for the given parameter set
-    func <- function(id, idGD) {
-      getTertiaryCasesNoTracing(paramList = paramList, times = times,
-                                infProf.df = infProfLLH[[id]], integral.df = integralLLH[[idGD]])
-    }
-    #' Which output do we want to construct the CI for?
-    output <- "ter.per.sec"
-    #' Now add the function(s), parameter list, and the output filename
-    info.filename <- "info-for-script_2.RData"
-    save(func, getTertiaryCasesNoTracing, output, paramList, out.filename, file = info.filename)
-    print(paste("Info file is", info.filename))
-    print(paste("The output file", out.filename, "can be generated by executing:"))
-    #' R --vanilla --slave < TTIQ-CIscript.R --args info-for-script_xx.RData run
-    print(paste("R --vanilla --slave < TTIQ-CIscript.R --args", info.filename, "run"))
-    addCI <- FALSE
-  }
-}
-```
-
-```{r tertiaryCases-noTracing, dependson = c(-1,-2,-3), fig.height = 6, fig.width = 10, fig.cap = caption}
+```{r tertiaryCases-noTracing, dependson = c(-1,-2), fig.height = 5, fig.cap = caption}
 caption <- "The reproductive number $R_{\\rm TI}$ under testing \\& isolation only.
 A) The impact of testing \\& isolation on $R_{\\rm TI}$ as a function of the fraction of symptomatic individuals that are isolated ($f$; x-axis) and delay to isolation after symptom onset ($\\Delta_1$; y-axis) for different baseline $R$ values (columns).
-The black line represents the criticial reproductive number $R_{\\rm TI} = 1$.
-Above this line (red zone) we have on average more than one secondary infection per infected and the epidemic is growing.
-Below this line we have less than one secondary infection per infected and the epidemic is suppressed.
+The black line represents the critical reproductive number $R_{\\rm TI} = 1$.
+Above this line (orange zone) we have on average more than one secondary infection per infected and the epidemic is growing.
+Below this line (blue zone) we have less than one secondary infection per infected and the epidemic is suppressed.
 Dashed lines are the 95\\% confidence interval for this threshold, representing the uncertainty in the inferred generation time distribution and infectivity profile.
 B) Lines correspond to slices of panel A at a fixed delay to isolation $\\Delta_1=$ 0, 2, or 4 days after symptom onset (colour).
 Shaded regions are 95\\% confidence intervals for the reproductive number, representing the uncertainty in the inferred generation time distribution and infectivity profile.
 Horizontal grey line is the threshold for epidemic control ($R_{\\rm TI} = 1$).
-We fix the fraction of transmission that is attributed to asymptomatic infections to $\\alpha=20\\%$."
+We fix the fraction of transmission that is attributed to asymptomatic infections to $\\alpha=20\\%$, where asymptomatic individuals are not tested or isolated.
+Data provided in \\nameref{S1_Dataset}."
 
 #' Combine plots
 plots <- list(tertiaryCasesPlot, tertiarySummaryPlot)
 legends <- list(get_legend(plots[[1]]), get_legend(plots[[2]]))
 plots <- lapply(plots, function(plot) plot + theme(legend.position = "none"))
+
+# plot_grid(
+#   plot_grid(plotlist = plots, nrow = 1, labels = "AUTO"),
+#   plot_grid(plotlist = legends, nrow = 1),
+#   rel_heights = c(1,0.05), ncol = 1
+# )
 
 plot_grid(
   plot_grid(plotlist = list(plots[[2]],plots[[1]]), ncol = 1, axis = "lr", align = "hv", rel_heights = c(1,1), labels = "AUTO"),
@@ -1260,34 +1285,35 @@ By increasing the fraction of symptomatic individuals that are isolated ($f$), t
 A SARS-CoV-2 outbreak with $R=1.1$ (in the absence of TTIQ) can be controlled by isolating as few as 21\% [95\% confidence interval (CI): 18\%,25\%] of symptomatic individuals at the time of symptom onset ($\Delta_1=0$ days) (Fig. \ref{fig:tertiaryCases-noTracing}B).
 If the symptomatic individuals wait $\Delta_1=2$ days after symptom onset before isolating (i.e. they wait for a test result), then 39\% [CI: 30\%,54\%] of symptomatic infecteds would have to be isolated for the epidemic to be controlled.
 Isolating after $\Delta_1=4$ days would be insufficient to control the epidemic even if all symptomatic individuals were isolated [CI: 63\%,n.a.].
-For faster-spreading SARS-CoV-2 outbreaks ($R=1.5$ in the absence of TTIQ), we would require 77\% [CI: 67\%,91\%] of symptomatic infecteds to be isolated immediately after they develop symptoms ($\Delta_1=0$ days) to control the epidemic.
-With a delay $\Delta_1 \ge 2$ days, testing & isolating would be insufficient to control the epidemic even if 100\% of symptomatic infecteds are isolated.
+For faster-spreading SARS-CoV-2 outbreaks or more transmissible variants (baseline $R=1.5$ in the absence of TTIQ), we would require 77\% [CI: 67\%,91\%] of symptomatic infecteds to be isolated immediately after they develop symptoms ($\Delta_1=0$ days) to control the epidemic.
+With a delay $\Delta_1 \ge 2$ days, testing \& isolating of symptomatic cases would be insufficient to control the epidemic, even if 100\% of symptomatic infecteds are isolated.
 
 We have predominantly focussed on $\alpha=20\%$ of infections being attributable to persistently-asymptomatic individuals in the absence of TTIQ.
-As this fraction increases, we observe a linear increase in $R_{\rm TI}$, i.e. increasing the fraction of transmission that is attributable to asymptomatic infections leads to reduced efficacy of testing \& isolating, as fewer cases are identified by testing only symptomatics (Fig. \ref{fig:asymptomatic-impact}A).
-It should be noted that under testing \& isolation measures, a larger fraction of onward transmission is attributable to asymptomatic infections when compared to the scenario of no TTIQ (Fig. \ref{fig:asymptomatic-impact}B).
+As this fraction increases, we observe a linear increase in $R_{\rm TI}$, i.e. increasing the fraction of transmission that is attributable to asymptomatic infections leads to reduced efficacy of testing \& isolating, as fewer cases are identified by testing only symptomatics (Fig IIIA in \nameref{S2_Appendix}).
+It should be noted that under testing \& isolation measures, a larger fraction of onward transmission is attributable to asymptomatic infections when compared to the scenario of no TTIQ (Fig IIIB in \nameref{S2_Appendix}).
 
 
 ## Reducing transmission by additional contact tracing \& quarantine
-With additional contact tracing \& quarantine, the theoretical upper limit of TTIQ efficacy is greatly increased compared to testing \& isolation alone.
-Under perfect conditions with all contacts quarantined immediately after symptom onset in the index case, TTIQ can suppress epidemics with a baseline $R$-value in the absence of TTIQ of up to 4.24 [95\% CI: 3.10,5.83] (Fig. \ref{fig:max-asymptomatic} for $\alpha = 20\%$).
+With additional contact tracing \& quarantine, the theoretical upper limit of TTIQ efficacy is greatly increased compared to testing \& isolation alone: under perfect conditions with all contacts quarantined immediately after symptom onset in the index case, TTIQ can suppress epidemics with a \emph{baseline $R$-value in the absence of TTIQ} of up to 4.24 [95\% CI: 3.10,5.83] (Fig II in \nameref{S2_Appendix} for $\alpha = 20\%$).
 However, it is unlikely that such a high level of suppression could be achieved in practice due to delays and inaccuracies in the contact tracing process.
 
-Under ideal TTIQ conditions, additional tracing \& quarantine can more than double the effectiveness of the intervention compared to testing \& isolation alone (Fig. \ref{fig:max-asymptomatic}).
-However, under more realistic expectations of inaccuracies and delays in the TTIQ processes, the majority of transmission is prevented by testing \& isolation if less than $g=60\%$ of contacts are quarantined (Fig. \ref{fig:quarantine-vs-isolation}).
+Under ideal TTIQ conditions, additional tracing \& quarantine can more than double the effectiveness of the intervention compared to testing \& isolation alone (Fig II in \nameref{S2_Appendix}).
+However, under more realistic expectations of inaccuracies and delays in the TTIQ processes, the majority of transmission is prevented by testing \& isolation if less than $g=60\%$ of contacts are quarantined (\nameref{S1_Fig}).
 
-We can visualise the additional benefit that contact tracing \& quarantine brings to testing \& isolation in our model by gradually increasing the fraction of contacts of index cases that are isolated, $g$.
+We can visualise the additional benefit that contact tracing \& quarantine brings to testing \& isolation in our model by gradually increasing the fraction of contacts that are quarantined, $g$.
 For $g=0$, no contacts are traced \& quarantined, and hence we return to the testing \& isolation strategy (Fig. \ref{fig:tertiaryCases-noTracing}).
 By increasing $g$, we expand the parameter space in which $R_{\rm TTIQ}<1$ (Fig. \ref{fig:tertiaryCases-CT}), i.e. contact tracing allows an epidemic to be controlled for lower fractions of index cases found ($f$) and/or longer delays to isolating the index case after they develop symptoms ($\Delta_1$).
 Furthermore, for a given set of testing \& isolation parameters $f$ and $\Delta_1$, we can control higher $R$-value epidemics with contact tracing \& quarantine that would be otherwise uncontrollable.
 
-```{r tertiaryCases-CT, fig.height = 3, fig.width = 10, fig.cap = caption}
+```{r tertiaryCases-CT, fig.height = 3.1, fig.cap = caption}
 caption <- "The impact of tracing \\& quarantine on the reproductive number $R_{\\rm TTIQ}$ as a function of the fraction of symptomatic individuals that are isolated ($f$; x-axis) and delay to isolation after symptom onset ($\\Delta_1$; y-axis), for different contact tracing \\& quarantine success probabilities $g$ (colour) across different baseline $R$ values (columns).
 We fix $\\Delta_2 = 2$ days and $\\tau = 2$ days.
 The contours separate the regions where the epidemic is growing ($R_{\\rm TTIQ}>1$; top-left) and the epidemic is suppressed ($R_{\\rm TTIQ}<1$; bottom-right).
 The contours for $g=0$ are equivalent to the contours in Fig. \\ref{fig:tertiaryCases-noTracing}.
 We fix the fraction of transmission that is attributed to asymptomatic infections to $\\alpha=20\\%$.
-We do not show confidence intervals for clarity of presentation."
+Asymptomatic individuals are not tested or isolated, but are subject to quarantine after contact tracing.
+We do not show confidence intervals for clarity of presentation.
+Data provided in \\nameref{S1_Dataset}."
 
 paramList <- list(
   alpha = 0.2,
@@ -1313,27 +1339,61 @@ ggplot(df, aes(x = f, y = Delta1, group = g)) +
   geom_contour(aes(colour = g, z = ter.per.sec), size = lineSize, breaks = 1) +
   facet_grid(~R, labeller = label_bquote(cols = R~"="~.(R))) +
   scale_colour_viridis_d(end = 0.9, labels = scales::percent(as.numeric(levels(df$g))),
-                         name = "fraction of\ncontacts\nquarantined (g)") +
+                         name = "fraction of contacts\nquarantined (g)",
+                         guide = guide_legend(title.position = "left", title.hjust = 0.5, nrow = 1, byrow = T)
+                         ) +
   scale_x_continuous(labels = scales::percent) +
   coord_cartesian(xlim = c(0,1), ylim = c(0, 4), expand = F) +
   labs(x = expression("fraction of symptomatic individuals isolated" ~ (f)),
        y = expression(atop("delay to isolation" ~ (Delta[1]),"(days after symptoms)"))) +
   plotTheme +
-  theme(legend.position = "right", panel.spacing = unit(1.5, "lines"), panel.grid.major.y = element_blank()) +
+  theme(legend.position = "bottom", legend.margin = margin(t = 0, b = 2, unit = "mm"), plot.margin = margin(r = 5, unit = "mm"), panel.spacing = unit(1.5, "lines"), panel.grid.major.y = element_blank()) +
   annotate("text", label = expression(R[TTIQ]~"> 1"), size = theme_get()$text[["size"]]/4,
-           x = 0.01, y = 3.78,
+           x = 0.01, y = 3.68,
            hjust = 0, vjust = 0) +
   annotate("text", label = expression(R[TTIQ]~"< 1"), size = theme_get()$text[["size"]]/4,
-           x = 0.819, y = 0.05,
+           x = 0.76, y = 0.05,
            hjust = 0, vjust = 0)
+
+#' Save the source data
+write.csv(df, file = "data/TTIQ-Fig3-sourcedata.csv", row.names = F, quote = F)
+
+# #' Maximum TTIQ effect
+# paramList <- list(
+#   alpha = 0.2,
+#   f = 0.8,
+#   g = 1,
+#   Delta1 = 0,
+#   Delta2 = 0,
+#   tau = 6,
+#   R = 1
+# )
+# maxReduction <- getTertiaryCases(paramList = paramList, times = times, stepSize = stepSize, infProf.df = infProfMLE,
+#                    genDist.df = genDistMLE, integral.df = integralMLE)
+# 1/maxReduction$cases
+
+# #' Maximum TTIQ effect
+# paramList <- list(
+#   alpha = 0.2,
+#   f = seq(0,1,0.05),
+#   g = 1,
+#   Delta1 = 0,
+#   Delta2 = 0,
+#   tau = 6,
+#   R = 1.5
+# )
+# dat <- getTertiaryCases(paramList = paramList, times = times, stepSize = stepSize, infProf.df = infProfMLE,
+#                    genDist.df = genDistMLE, integral.df = integralMLE)
+# dat$f <- as.numeric(levels(dat$f))[dat$f]
+# round(approx(x = dat[["cases"]], y = dat$f, xout = 1)$y, digits = 2)
 ```
 
 To obtain a systematic understanding of the impact that each parameter of the TTIQ process has on the effective reproductive number $R_{\rm TTIQ}$, we can individually vary each of the five TTIQ parameters.
 To this end, we calculate $R_{\rm TTIQ}$ for focal parameter sets of $(f,g,\Delta_1,\Delta_2,\tau)$.
 We then perturb each single parameter, keeping the remaining four parameters fixed, and compute the new value of $R_{\rm TTIQ}$ (Fig. \ref{fig:tertiaryCases-single}).
 
-```{r tertiaryCases-single, fig.height = 8, fig.width = 10, fig.cap = caption}
-caption <- "The response of the reproductive number $R_{\\rm TTIQ}$ to single TTIQ parameter pertubations.
+```{r tertiaryCases-single, fig.height = 5, fig.width = 8, fig.cap = caption}
+caption <- "The response of the reproductive number $R_{\\rm TTIQ}$ to single TTIQ parameter perturbations.
 We set the baseline $R=1.5$ throughout, which is the intensity of the epidemic in the absence of any TTIQ intervention.
 We consider four focal TTIQ parameter combinations, with $f \\in \\{30\\%,70\\%\\}$, $\\Delta_1 \\in \\{0,2\\}$ days, $g = 50\\%$, $\\Delta_2=1$ day, and $\\tau=2$ days.
 $R_{\\rm TTIQ}$ for the focal parameter sets are shown as thin black lines.
@@ -1341,7 +1401,10 @@ With $f=0$ (no TTIQ) we expect $R_{\\rm TTIQ} = R$ (upper grey line).
 We then vary each TTIQ parameter individually, keeping the remaining four parameters fixed at the focal values.
 The upper panel shows the probability parameters $f$ and $g$, while the lower panel shows the parameters which carry units of time (days).
 The critical threshold for controlling an epidemic is $R_{\\rm TTIQ} = 1$ (lower grey line).
-We fix the fraction of transmission that is attributed to asymptomatic infections to $\\alpha=20\\%$."
+We fix the fraction of transmission that is attributed to asymptomatic infections to $\\alpha=20\\%$.
+A sensitivity analysis to $\\alpha$ is shown in Fig I in \\nameref{S2_Appendix}.
+Asymptomatic individuals are not tested or isolated, but are subject to quarantine after contact tracing.
+Data provided in \\nameref{S1_Dataset}."
 
 #' Function to perturb a single parameter and compute tertiary cases
 perturbParam <- function(paramList, param, values, addCI = F, index = NULL) {
@@ -1432,7 +1495,7 @@ focalCases$R <- as.numeric(levels(focalCases$R))[focalCases$R]
 perturbedCases <- lapply(allData, function(data) data$perturbed) %>% bind_rows()
 
 #' Plot
-yLim <- c(0.45, 1.55)
+yLim <- c(0.45,1.55)
 plot_labeller <- function(variable, value) {
   labs <- lapply(value, function(index) {
     index <- as.numeric(levels(value))[index]
@@ -1440,7 +1503,8 @@ plot_labeller <- function(variable, value) {
     #f <- focalParams.list[[index]]$f
     f <- scales::percent(focalParams.list[[index]]$f)
     Delta1 <- focalParams.list[[index]]$Delta1
-    bquote(bold(.(lett))~~"f ="~.(f)*","~Delta[1]~"="~.(Delta1)~"days")
+    #bquote(bold(.(lett))~~"f ="~.(f)*","~Delta[1]~"="~.(Delta1)~"days")
+    bquote(bold(.(lett))~~"f="*.(f)*","~Delta[1]*"="*.(Delta1)*"d")
   })
   return(labs)
 }
@@ -1464,12 +1528,14 @@ probPlot <- ggplot(perturbedCases[perturbedCases$param %in% c("f","g"),],
   coord_cartesian(xlim = c(0,1), ylim = yLim, expand = F) +
   scale_x_continuous(labels = scales::percent) +
   labs(x = "probability", y = expression(R[TTIQ])) +
-  plotTheme + theme(plot.margin = unit(c(1.1,0.2,0,0), "lines"),
-                    legend.position = "right",#c(0.95,0.7),
-                    legend.text = element_text(size = 14),
-                    legend.key.size = unit(1.5,"line"),
-                    strip.text = element_text(hjust = 0, size = 13),
-                    panel.spacing = unit(1.5,"lines"))
+  plotTheme +
+  theme(plot.margin = margin(t = 1.1, r = 1.0, unit = "lines"),
+        legend.position = c(0.05,0.20),#"right",#c(0.95,0.7),
+        legend.background = element_blank(),
+        legend.text = element_text(size = 12),
+        legend.key.size = unit(1.5,"line"),
+        strip.text = element_text(hjust = 0, size = 12),
+        panel.spacing = unit(1.5,"lines"))
 
 myLabs <- expression(Delta[1],Delta[2],tau)
 names(myLabs) <- c("Delta1","Delta2","tau")
@@ -1488,25 +1554,30 @@ timePlot <- ggplot(perturbedCases[perturbedCases$param %in% c("Delta1","Delta2",
                       aesthetics = c("colour","fill"), name = NULL, labels = myLabs) +
   coord_cartesian(xlim = c(0,5), ylim = yLim, expand = F) +
   labs(x = "time (days)", y = expression(R[TTIQ])) +
-  plotTheme + theme(plot.margin = unit(c(1,0.2,0,0), "lines"),
-                    legend.position = "right",#c(0.82,0.7),
+  plotTheme + theme(plot.margin = margin(t = 0.5, r = 1.0, unit = "lines"),
+                    legend.position = c(0.06,0.25),#"right",#c(0.82,0.7),
+                    legend.background = element_blank(),
                     legend.text = element_text(size = 14, hjust = 0.5),
                     legend.key.size = unit(1.5,"line"),
                     strip.background = element_blank(),
                     strip.text = element_blank(),
                     panel.spacing = unit(1.5,"lines"))
 
-#' Extract legend and then plot together
-probPlot.legend <- get_legend(probPlot)
-timePlot.legend <- get_legend(timePlot)
-probPlot <- probPlot + theme(legend.position = "none")
-timePlot <- timePlot + theme(legend.position = "none")
+#' Save the source data
+write.csv(perturbedCases, file = "data/TTIQ-Fig4-sourcedata.csv", row.names = F, quote = F)
 
-plot_grid(
-  plot_grid(probPlot, timePlot, nrow = 2),
-  plot_grid(probPlot.legend, timePlot.legend, nrow = 2),
-  nrow = 1, rel_widths = c(1,0.08)
-)
+#' Extract legend and then plot together
+# probPlot.legend <- get_legend(probPlot)
+# timePlot.legend <- get_legend(timePlot)
+# probPlot <- probPlot + theme(legend.position = "none")
+# timePlot <- timePlot + theme(legend.position = "none")
+# 
+# plot_grid(
+#   plot_grid(probPlot, timePlot, nrow = 2),
+#   plot_grid(probPlot.legend, timePlot.legend, nrow = 2),
+#   nrow = 1, rel_widths = c(1,0.08)
+# )
+plot_grid(probPlot, timePlot, nrow = 2, rel_heights = c(1,0.9))
 ```
 
 Modifying the fraction of symptomatic index cases that are identified and isolated ($f$) has the largest effect of all parameter changes.
@@ -1524,11 +1595,14 @@ Hence increasing $\tau$ comes with diminishing returns.
 
 To check the robustness of these effects across all parameter combinations (not just perturbing a single parameter), we randomly sampled parameter combinations $(f,g,\Delta_1,\Delta_2,\tau)$ and used linear discriminant analysis (LDA) to capture the impact that each parameter has on $R_{\rm TTIQ}$ (Fig. \ref{fig:LDA-1D-plot}).
 We find that $f$ is the dominant parameter to determine the reproductive number, followed by $\Delta_1$, $g$, $\Delta_2$, and finally $\tau$ has the smallest impact.
-Furthermore, by looking at the distribution of the randomly-sampled TTIQ parameters across different $R_{\rm TTIQ}$ values (Fig. \ref{fig:LDA-1D-dist}), we observe that low $f$ values are strongly associated with low TTIQ effectiveness (although a high $f$ value is not necessarily associated with high effectiveness).
+Furthermore, by looking at the distribution of the randomly-sampled TTIQ parameters across different $R_{\rm TTIQ}$ values (\nameref{S2_Fig}), we observe that low $f$ values are strongly associated with low TTIQ effectiveness (although a high $f$ value is not necessarily associated with high effectiveness).
 
-The output of the LDA analysis is dependent on the range of parameter values from which we sample (Fig. \ref{fig:LDA-vary-range-plot}).
+The output of the LDA analysis is dependent on the range of parameter values from which we sample (\nameref{S3_Fig}).
 While $f$ and $g$ are naturally bounded from 0\% to 100\%, the time-valued parameters $\Delta_1$, $\Delta_2$, and $\tau$ have no natural upper limit.
 Without empirical data to inform these prior distributions, we focus on durations from zero to five days as shown in Fig. \ref{fig:tertiaryCases-single}.
+Furthermore, as a linear approximation the LDA does not capture the effect of covariance between parameters.
+To capture these parameter interactions, we can also include quadratic terms (e.g. $f \times g$) as independent parameters in the LDA.
+From this analysis (\nameref{S4_Fig}), we see that the terms $f\times\Delta_1$ and $g\times\Delta_2$ correlate positively with $R_{\rm TTIQ}$, such that increasing the delays $\Delta_1$ and $\Delta_2$ can negate the increase in TTIQ efficacy that is bought by increasing $f$ or $g$, respectively.
 
 ```{r LDA-1D-calc, message = F, include = F}
 #' Parameter ranges
@@ -1580,18 +1654,32 @@ df$tau <- as.numeric(levels(df$tau))[df$tau] / (tau.range$max - tau.range$min)
 names(df)[names(df) == "ter.per.sec"] <- "output"
 df <- df[,c("output","f","g","Delta1","Delta2","tau")]
 
+# x <- c("f","g","Delta1","Delta2","tau")
+# y <- x
+# for (i in x) {
+#   for (j in y) {
+#     df[,paste0(i,j)] <- df[,i] * df[,j]
+#   }
+#   y <- y[y != i]
+# }
+
 
 #' Discretise cases into bins
 bin <- 0.1
-output.min <- 0.0
-output.max <- 1.5
+output.min <- floor(10*min(df$output))/10 # Round to lowest 0.1
+output.max <- R.range
 df$class <- cut(df$output, seq(output.min, output.max, bin), right = F) #,labels = paste(seq(output.min, output.max-bin, bin), "< n[3] <", seq(output.min+bin, output.max, bin)))
 #' Perform the LDA analysis based on the discrete Re class
 lda <- lda(formula = class ~ f + g + Delta1 + Delta2 + tau, data = df)
+#lda <- lda(formula = class ~ f + g + Delta1 + Delta2 + tau + ff + fg + fDelta1 + fDelta2 + ftau + gg + gDelta1 + gDelta2 + gtau + Delta1Delta1 + Delta1Delta2 + Delta1tau + Delta2Delta2 + Delta2tau + tautau, data = df) # paste(names(df)[!names(df) %in% c("output","class")], collapse = " + ")
 #' Project the data onto the LDA space
 plda <- predict(object = lda, newdata = df)
 plot.df <- data.frame(class = df[,"class"], output = df[,"output"], lda = plda$x) # Output will be the category, lda.LD1 will be the new x-axis
 
+#' Create colour scheme
+#colours <- c(colorRampPalette(colors = c("blue","cyan"))(length(seq(n3.min + bin/2, 1 - bin/2, bin))), colorRampPalette(colors = c("yellow","red"))(length(seq(1 + bin/2, n3.max - bin/2, bin))))
+#colours <- c(colorRampPalette(colors = c("seagreen","white"))(length(seq(n3.min + bin/2, 1 - bin/2, bin))), colorRampPalette(colors = c("white","salmon"))(length(seq(1 + bin/2, n3.max - bin/2, bin))))
+#names(colours) <- levels(plot.df$class)
 ff <- seq(output.min, output.max-bin, bin) + bin/2
 plot.df$discrete <- ff[as.numeric(plot.df$class)]
 
@@ -1607,104 +1695,183 @@ lda.vectors$params <- factor(lda.vectors$params, levels = c("tau","Delta2","g","
 expressions <- c(f = "f", g = "g", tau = "tau", Delta2 = "Delta[2]", Delta1 = "Delta[1]")
 lda.vectors$param.expressions <- expressions[as.character(levels(lda.vectors$params))[lda.vectors$params]]
 
-# Move to Appendix
 # Save all the data that we need to plot the parameter sample distributions
 save(df, expressions, ff, output.min, output.max, bin, file = "data/LDA-parameter-distributions.RData")
 ```
 
-```{r LDA-1D-plot, dependson = c(-1), message = F, fig.height = 5, fig.cap = caption}
+```{r LDA-1D-plot, dependson = c(-1), message = F, fig.height = 4, fig.cap = caption}
 caption <- "Linear discriminant analysis (LDA) of the impact of TTIQ strategies on the reproductive number $R_{\\rm TTIQ}$.
-We fix the baseline $R=1.5$ and $\\alpha=20\\%$, and then we randomly uniformly sample 10,000 parameter combinations from $f \\in [0\\%,100\\%]$, $g \\in [0\\%,1\\%]$, $\\Delta_1 \\in [0,5]$ days, $\\Delta_2 \\in [0,5]$ days, and $\\tau \\in [0,5]$ days.
+We fix the baseline $R=1.5$ and $\\alpha=20\\%$, and then we randomly uniformly sample 10,000 parameter combinations from $f \\in [0\\%,100\\%]$, $g \\in [0\\%,100\\%]$, $\\Delta_1 \\in [0,5]$ days, $\\Delta_2 \\in [0,5]$ days, and $\\tau \\in [0,5]$ days.
 The reproductive number is calculated for each TTIQ parameter combination, and the output ($R_{\\rm TTIQ}$) is categorised into bins of width $0.1$ (colour).
 We then use LDA to construct a linear combination (LD1) of the five (normalised) TTIQ parameters which maximally separates the output categories.
 We then predict the LD1 values for each parameter combination, and construct a histogram of these values for each category.
 The lower panel shows the components of the primary linear discriminant vector (LD1).
 By multiplying the (normalised) TTIQ parameters by the corresponding vector component, we arrive at the LD1 prediction which corresponds to the predicted reproductive number under that TTIQ strategy.
 Longer arrows (larger magnitude components) correspond to a parameter having a larger effect on the reproductive number.
-The distributions of parameters per categorised reproductive number is shown in Fig. \\ref{fig:LDA-1D-dist}."
+The distributions of parameters per categorised reproductive number is shown in \\nameref{S2_Fig}.
+Data provided in \\nameref{S1_Dataset}."
 
 #' Plot the LDA histograms
 plot <- ggplot(plot.df, aes(x = lda.LD1, fill = discrete, group = fct_rev(class))) +
   stat_density(aes(y = ..count../nrow(plot.df)), position = "identity", alpha = 0.8, colour = "black") +
-  scale_fill_gradientn(colours = c("seagreen","white","white", "white","salmon"), name = expression(R[TTIQ]),
+  #scale_fill_gradientn(colours = c("seagreen","white","white", "white","salmon"),
+  scale_fill_gradientn(colours = c("#0072B2","white","white","white","#E69F00"),
+                       name = expression(R[TTIQ]),
                        values = scales::rescale(c(output.min,1-.Machine$double.eps,1,1+.Machine$double.eps,output.max)),
                        limits = c(output.min,output.max),
+                       breaks = seq(0.4,1.5,0.1),
+                       labels = c("0.4","","","","","","1.0","","","","","1.5"),
                        guide = guide_colorbar(direction = "horizontal")) +
-  plotTheme + theme(legend.position = c(0.2,0.85)) +
   coord_cartesian(xlim = c(-1,1)*9, ylim = c(0,0.1), expand = F) +
-  scale_x_continuous(breaks = seq(-10,10,2))
-#' Add proportion to label
-plot <- plot + labs(x = paste("LD1 (", scales::percent(prop.lda[1], accuracy = 0.1), ")", sep = ""), y = "frequency")
+  scale_x_continuous(breaks = seq(-10,10,2)) +
+  scale_y_continuous(breaks = seq(0,0.1,0.025), labels = c("0.00","","0.05","","0.10")) +
+  labs(x = paste("LD1 (", scales::percent(prop.lda[1], accuracy = 0.1), ")", sep = ""), y = "density") +
+  plotTheme + theme(legend.position = c(0.15,0.75), legend.title = element_text(vjust = 0.75))
 
 #' Plot the parameter arrows and labels
 param.plot <- ggplot(lda.vectors, aes(x = 0, xend = LD1, y = params, yend = params)) +
   geom_vline(xintercept = 0) +
   geom_segment(lineend = "butt", size = lineSize, arrow = arrow(length = unit(0.2, "cm"))) +
   #geom_text(aes(label = params, x = ifelse(LD1 > 0, -1, 1))) +
-  geom_text(aes(x = LD1 + sign(LD1)*0.6, label = format(round(LD1, digits = 2), nsmall = 2))) +
+  geom_text(aes(x = LD1 + ifelse(LD1<0,-0.7,0.6), label = format(round(LD1, digits = 2), nsmall = 2))) +
   geom_text(aes(label = param.expressions, x = sign(-LD1)*0.4), parse = T, size = 5) +
   coord_cartesian(xlim = c(-1,1)*9, ylim = c(0.5,5.5), expand = F) +
   labs(caption = expression("parameter impact on" ~ R[TTIQ])) +
   theme_void() +
   theme(plot.caption = element_text(hjust = 0.5, size = plotTheme$text$size),
-        plot.margin = unit(c(1,0,1,0), units = "lines"))
+        plot.margin = unit(c(0.5,0,1,0), units = "lines"))
 
+#' Save the source data
+write.csv(plot.df, file = "data/TTIQ-Fig5A-sourcedata.csv", row.names = F, quote = c(1))
+write.csv(lda.vectors, file = "data/TTIQ-Fig5B-sourcedata.csv", row.names = F, quote = c(7))
 #' Combine
-plot_grid(plot, param.plot, nrow = 2, rel_heights = c(1,0.5), align = "v", axis = "lr")#, labels = "AUTO")
+plot_grid(plot, param.plot, nrow = 2, rel_heights = c(1,0.8), align = "v", axis = "lr")#, labels = "AUTO")
 ```
 
 Finally, we comment on the role of asymptomatic transmission across the TTIQ intervention.
 Although quarantine of a traced contact occurs independently of whether that contact will be symptomatic or asymptomatic, the probability that the contact is identified in the first place depends on whether the infector is asymptomatic or not.
-Hence, TTIQ will decrease in effectiveness as the fraction of transmission that is attributable to asymptomatic individuals ($\alpha$) increases (Fig. \ref{fig:asymptomatic-impact}A).
+Hence, TTIQ will decrease in effectiveness as the fraction of transmission that is attributable to asymptomatic individuals ($\alpha$) increases (Fig IIA in \nameref{S2_Appendix}).
 
-
+\clearpage
 # Discussion
 By combining empirically well-supported estimates of the infection timing of SARS-CoV-2 with a simple model of transmission dynamics, we have calculated the impact of test-trace-isolate-quarantine (TTIQ) interventions against the spread of COVID-19.
-Under idealised conditions, testing \& isolation plus contact tracing \& quarantine can prevent substantially more transmission that testing \& isolation only.
+Under idealised conditions, testing \& isolation plus contact tracing \& quarantine can prevent substantially more transmission than testing \& isolation only.
 However, the effects of delays and inaccuracies in the TTIQ processes are compounded for contact tracing \& quarantine, which ultimately relies on index case identification to be effective.
-If we ignore this compounding effect, then we would potentially be overestimating the impact that contact tracing can have on transmission reduction.
+Ignoring this compounding effect would potentially overestimate the impact that contact tracing can have on transmission reduction.
 Based on our systematic analysis, we find that the greatest improvement to the TTIQ process would come from increased identification and isolation of symptomatic index cases and reduction of delay between symptom onset and isolation.
 These parameters contribute to the direct reduction of onward infection from an index case, and optimising them allows more contacts to be traced earlier.
+These results align with those of \citet{grantz:PLOSMedicine:2021}.
+From a public health perspective, increasing the identification and speeding up the isolation of symptomatic index cases could be achieved through widely-available rapid testing.
+Despite the potentially lower sensitivity of rapid tests compared to RT-PCR tests, their effectiveness at reducing transmission has been demonstrated in simulation studies of index case isolation \citep{larremore:Sci.Adv.:2021}.
 
 Increasing the duration of the contact tracing window by looking back further in time has limited return under our model of forward contact tracing (identifying who was infected by the index case).
 However, if we were interested in identifying the source of infection (backwards contact tracing), then increasing the duration of the contact tracing window could lead to the identification of transmission clusters.
 
 When comparing to the findings of \citet{ferretti:Science:2020}, we find that contact tracing has less impact on epidemic suppression, and that the speed of contact tracing is of secondary importance to the speed of isolating index cases.
-This difference can be attributed to \citet{ferretti:Science:2020}'s approach to model contact tracing and isolation as independent events (i.e. tracing an index cases' contacts says nothing about whether the index case has been isolated), which leads to an overestimation of contact tracing's impact \citep{fraser:PNAS:2004}.
+This difference can be attributed to \citet{ferretti:Science:2020}'s use of \citet{fraser:PNAS:2004}'s approach to model contact tracing and isolation as independent events (i.e. tracing an index cases' contacts says nothing about whether the index case has been isolated).
+Although this assumption leads to analytically tractable predictions of the reproductive number under TTIQ, it also leads to an overestimation of contact tracing's impact \citep{fraser:PNAS:2004}.
+Our approach can therefore be considered as a methodological advance over \citet{fraser:PNAS:2004} and should be employed in the analysis of future epidemic scenarios.
 
-In \citet{kretzschmar:TheLancetPublicHealth:2020} -- this time with contact tracing dependent on testing \& isolation -- they concluded that reducing the delay to isolation after symptom onset has the greatest impact on TTIQ effectiveness.
-This conclusion was made without systematic analysis of all parameters, and we now find that changing testing \& isolation coverage has a greater effect on transmission reduction.
+\citet{kretzschmar:TheLancetPublicHealth:2020} -- this time with contact tracing dependent on testing \& isolation -- concluded that reducing the delay to isolation after symptom onset has the greatest impact on TTIQ effectiveness.
+They further showed that the effective reproductive number was insensitive to varying the testing coverage, although only at a fixed delay of four days between symptom onset and index case isolation.
+Based on our systematic LDA analysis with quadratic parameters (\nameref{S4_Fig}), we know that there is considerable interaction between testing coverage $f$ and isolation delay $\Delta_1$.
+Therefore, we expect that sensitivity to testing coverage would appear at shorter delay values, and on average across these parameters we show that increasing $f$ has a greater effect on the reproductive number than decreasing $\Delta_1$.
 
 Our approach and results are crucially dependent on the distribution of infection times (generation time and infectivity profile) and although we have used well-supported estimates, there are inherent limitations to deriving these distributions based on transmission pairs.
 These transmission pairs are representative of symptomatic cases, but the infectiousness profiles for persistently-asymptomatic infections are as-yet unknown \citep{ferretti:medRxiv:2020}.
 We have assumed that asymptomatically-infected individuals have the same infection timing distributions as symptomatic individuals, but any differences between the shapes of these profiles will lead to different results in terms of transmission reduction.
-The uncertainty in the inferred infection timing distributions is carried through our analysis and is captured by the confidence intervals shown in the figures and reported in the text.
+Uncertainty in the inferred infection timing distributions is carried through our analysis and is captured by the confidence intervals shown in the figures and reported in the text.
 Furthermore, we do account for potential differences in the overall transmissibility between asymptomatic and symptomatic individuals.
 It is possible that the 20\% of infections that are asymptomatic are responsible for less than 20\% of transmission in the absence of any TTIQ interventions.
-We show in the Appendix that TTIQ becomes more effective as asymptomatic transmission decreases.
+We show in \nameref{S2_Appendix} that TTIQ becomes more effective as asymptomatic transmission decreases.
 Therefore, our results could be underestimating TTIQ efficacy, to a small extent.
 
 Our model is parametrised on distributions of the timing of transmission estimated prior to the emergence of new, more transmissible variants.
 If new variants simply have higher transmissibility -- without changes in the timing of transmission -- our fundamental analysis remains the same.
 In this case, TTIQ may be insufficient to control the spread of highly-transmissible (higher $R$-value) new variants, as captured in Figs. \ref{fig:tertiaryCases-noTracing} and \ref{fig:tertiaryCases-CT}.
-If the increased transmission of the new variants is due to a longer-lasting infectious period, then we expect TTIQ to be more efficient, as the additional transmission events are prevented by isolation and quarantine.
+If the increased transmission of the new variants is due to a longer-lasting infectious period, then we expect TTIQ to be more efficient, as the additional transmission events would be prevented by isolation and quarantine.
 If the new variants are more transmissible during early (presymptomatic) infection, then we expect the relative benefit of contact tracing over testing \& isolating to increase.
 
-In terms of modelling the TTIQ process, we have assumed that identified index cases are isolated and have their contracts traced.
+In terms of modelling the TTIQ process, we have assumed that identified symptomatic index cases are isolated after symptom onset and have their contacts traced.
 If the index case fails to adhere to the isolation protocol, then we will overestimate the amount of transmission prevented by isolation.
 However, uncertainty in whether contacts adhere to quarantine protocols, or whether contact tracers actually identify contacts, is captured in the parameter $g$.
 Lower adherence to quarantine or missed contacts due to overwhelmed contact tracers is captured by lowering $g$.
+\citet{hill:PLOSComputationalBiology:2021} recently demonstrated in a network modelling study that increased adherence to isolation and contact tracing measures can significantly reduce the size of an outbreak.
 
-In our approach, we assume a baseline $R$ that is defined in the absence of the modelled TTIQ intervention (i.e no testing, isolation, or contact tracing).
+In our approach, we assume a baseline $R$ that is defined in the absence of the modelled TTIQ intervention (i.e. no testing, isolation, or contact tracing).
 The empirical value for this baseline $R$ is not known, as observed values of the reproductive number in most countries include the impact of the modelled intervention.
 In itself, this does not impact the result of our analysis: the impact of isolation remains higher than that of quarantine across different values of $R$ (Fig. \ref{fig:tertiaryCases-CT}).
 However, in contexts where a large proportion of symptomatic individuals already isolate, the scope for increasing isolation may be limited.
-Under such circumstances, mass testing, if successfully followed by isolation, may be a promising intervention.
+Under such circumstances, mass or random testing, if successfully followed by isolation, may be a promising intervention.
 This is supported by data on the effectiveness of mass testing interventions, for example in Slovakia \citep{pavelka:Science:2021}.
+In this scenario it would be possible to identify asymptomatic index cases, as well as identifying eventually-symptomatic cases before symptom onset.
+Through this increased index case identification and isolation, as well as the reduced time that these index cases are infectious and non-isolated, and also reducing the number of secondary contacts that have to be identified by contact tracing, mass/random testing would therefore increase the overall performance of TTIQ.
+
+Our analysis is, to some extent, limited by the assumptions which underlie the branching process framework.
+The infinite population size assumption prevents us from computing the fraction of population that is infected, or from a socioeconomic point of view the fraction of population isolated/quarantined at a given time.
+Furthermore, with the branching process we cannot observe long-term effects caused by depleting susceptibles through quarantine, immunity, or death.
+However, the branching process approach is valid over short time scales (like the two generations of transmission that we calculate), provided that the susceptible population size is much larger than $R^2$.
+The effect of susceptible depletion can also be incorporated by lowering the baseline reproductive value $R$ in the model.
+
+Assuming a fixed value of the baseline reproductive value $R$ is a further limitation of our approach, as the impact of overdispersion of contact number distributions and superspreading is well documented for infectious disease dynamics \citep{lloyd-smith:Nature:2005}.
+If we were to sample $R$ for the index case and each secondary case from identical overdispersed negative binomial distributions, then the expectation value would be unchanged from our current approach: only the variance/uncertainty in our predictions would increase (\nameref{S3_Appendix}).
+The equivalence of expectation values could break down if we were to assume a finite capacity of contact tracing, such that the quarantined fraction of contacts of index cases with a large individual reproductive number may be less than $g$.
 
 Here we have shown through systematic analysis how the TTIQ processes can be optimised to bring the effective reproductive number below one.
 Crucially, contact tracing \& quarantine adds security to testing \& isolating strategies, where high coverage and short delays are necessary to control an epidemic.
 By improving the testing \& isolation coverage and reducing the delay to index case isolation, we can greatly increase the efficacy of the overall TTIQ strategy.
+
+# Supporting information
+
+\paragraph{S1 Appendix.}\label{S1_Appendix}
+\textbf{Supplementary materials and methods.} This file contains mathematical details of the model and analysis.
+
+\paragraph{S2 Appendix.}\label{S2_Appendix}
+\textbf{Supplementary results I.} Impact of asymptomatics.
+
+\paragraph{S3 Appendix.}\label{S3_Appendix}
+\textbf{Supplementary results II.} Overdispersion.
+
+\paragraph{S1 Fig.}\label{S1_Fig}
+\textbf{Quarantine versus isolation.} The fraction of prevented transmission that can be attributed to quarantine, rather than isolation.
+Let $R_{\rm TTIQ}(g)$ be the reproductive number in the presence of TTIQ interventions in which a fraction $g$ of contacts of identified index cases are quarantined.
+In the absence of TTIQ measures, we expect a reproductive number of $R$.
+We then define $Y(g) = R-R_{\rm TTIQ}(g)$ as reduction of transmission due to TTIQ, and $Y(0) = R-R_{\rm TTIQ}(0)$ as the reduction of transmission due only to isolation (i.e. no contact tracing \& quarantine).
+We then define the fraction of prevented transmission due to quarantine as
+$[Y(g)-Y(0)]/Y(g)$, which we plot as a function of $g$.
+Note that we are computing how much extra transmission is prevented by quarantine, which may just be one days worth of transmission before the contact becomes symptomatic and would anyway be isolated.
+We vary the fraction of symptomatic index cases that are isolated $f$ (colour), and we fix $\Delta_1 = \Delta_2 = \tau = 2$ days.
+We further fix the fraction of transmission that is attributed to asymptomatic infections to $\alpha=20\%$ and $R=1.5$ (although the fraction shown is independent of $R$).
+Above the horizontal line, more transmission is prevented by quarantine than by isolation.
+Data provided in \nameref{S1_Dataset}.
+
+\paragraph{S2 Fig.}\label{S2_Fig}
+\textbf{LDA parameter distributions.} The distributions of (normalised) parameters per categorised group of $R_{\rm TTIQ}$ as used in the LDA analysis in Fig. \ref{fig:LDA-1D-plot} in the manuscript.
+We uniformly sample 10,000 parameter combinations from $f \in [0\%,100\%]$, $g \in [0\%,100\%]$, $\Delta_1 \in [0,5]$ days, $\Delta_2 \in [0,5]$ days, and $\tau \in [0,5]$ days.
+The reproductive number $R_{\rm TTIQ}$ is calculated for each parameter combination and categorised into bins of width $0.1$ (colour).
+The upper row shows how many parameter combinations resulted in each category of $R_{\rm TTIQ}$.
+The next five rows show how the parameters are distributed within each category, while the horizontal bar shows the median parameter value.
+We fix $R=1.5$ and $\alpha=20\%$.
+Data provided in \nameref{S1_Dataset}.
+
+\paragraph{S3 Fig.}\label{S3_Fig}
+\textbf{LDA range sensitivity.} Impact of varying the range from which we sample time-dependent parameters on the LDA output (without quadratic terms).
+Each bar represents the magnitude of the components of the primary linear discriminant vector (LD1) for each parameter (colour).
+Data provided in \nameref{S1_Dataset}.
+
+\paragraph{S4 Fig.}\label{S4_Fig}
+\textbf{LDA with quadratic terms.} Linear discriminant analysis (LDA) of the impact of TTIQ strategies on the reproductive number $R_{\rm TTIQ}$, now including quadratic terms.
+We use the same uniformly-sampled data as in Fig. \ref{fig:LDA-1D-plot} in the manuscript, but now we include the quadratic parameter terms (e.g. $f \times g$) as discriminators too.
+We take the square root of these quadratic terms to ensure the parameter distributions are not overly skewed.
+We then use LDA to construct a linear combination (LD1) of the now 15 TTIQ parameters which maximally separates the output categories.
+We then predict the LD1 values for each parameter combination, and construct a histogram of these values for each category.
+The lower panel shows the components of the primary linear discriminant vector (LD1).
+By multiplying the (normalised) TTIQ parameters by the corresponding vector component, we arrive at the LD1 prediction which corresponds to the predicted reproductive number under that TTIQ strategy.
+Longer arrows (larger magnitude components) correspond to a parameter having a larger effect on the reproductive number.
+Data provided in \nameref{S1_Dataset}.
+
+\paragraph{S1 Dataset.}\label{S1_Dataset}
+\textbf{Raw data for quantitative figures.} Zipped csv files.
 
 ### Contributors {-}
 Conceptualization: PA SL SB; Methodology: PA SL SB; Software: PA; Validation: PA SL SB; Formal analysis: PA; Investigation: PA; Resources: -; Data curation: PA; Writing—original draft: PA SL SB; Writing—review & editing: PA SL SB; Visualization: PA; Supervision: SB; Project administration: PA SB; Funding acquisition: SB
@@ -1717,18 +1884,18 @@ This study was funded by the Swiss National Science Foundation (grant no. 310030
 
 
 \clearpage
-# Appendix {-}
+# S1 Appendix. Supplementary materials and methods {-}
 \setcounter{section}{0}
 \setcounter{equation}{0}
 \setcounter{figure}{0}
 \setcounter{table}{0}
 \renewcommand*\thesection{S\arabic{section}}
-\renewcommand*\theequation{S\arabic{equation}}
-\renewcommand*\thefigure{S\arabic{figure}}
-\renewcommand*\thetable{S\arabic{table}}
+\renewcommand*\theequation{S1.\arabic{equation}}
+\renewcommand*\thefigure{\Roman{figure}}
+\renewcommand*\thetable{\Roman{table}}
 
 
-# Generation times, infectivity profiles, and incubation periods {-}
+## Generation times, infectivity profiles, and incubation periods {-}
 In our branching process model, the time at which an infector transmits SARS-CoV-2 to an infectee is determined from empirically-observed distributions.
 Concretely, the time at which an identified index case developed symptoms, $t_{S_1}$, is known, but the time at which they were infected, $t_1$, is generally unknown.
 Secondary contacts will be infected by the index case at some time $t_2$ ($t_2 > t_1$), and, if symptomatic, will develop symptoms at time $t_{S_2}$.
@@ -1743,7 +1910,8 @@ The infectee then develops symptoms at time $t_{S_2}$.
 The generation time is then defined as $t_2-t_1$ (the time between infections), while the serial interval is defined as $t_{S_2}-t_{S_1}$ (the time between symptom onsets).
 B) The generation time distribution [$q(t|\\theta_q) = q(t_2-t_1|\\theta_q)$] follows a Weibull distribution, and is inferred from the serial interval distribution \\citep{ferretti:medRxiv:2020}.
 C) The infectivity profile [$p(t|\\theta_p) = p(t_2-t_{S_1}|\\theta_p)$] follows a shifted Student's \\emph{t}-distribution, and is also inferred from the serial interval distribution \\citep{ferretti:medRxiv:2020}.
-D) The distribution of incubation times [$h(t) = h(t_{S_1}-t_1)$] follows a meta-distribution constructed from the average of seven reported log-normal distributions, as described in \\citet{ferretti:medRxiv:2020} \\citep{bi:TheLancetInfectiousDiseases:2020,jiang:medRxiv:2020,lauer:AnnInternMed:2020,li:NEJM:2020,linton:J.Clin.Med.:2020,ma:medRxiv:2020,zhang:TheLancetInfectiousDiseases:2020}."
+D) The distribution of incubation times [$h(t) = h(t_{S_1}-t_1)$] follows a meta-distribution constructed from the average of seven reported log-normal distributions, as described in \\citet{ferretti:medRxiv:2020} \\citep{bi:TheLancetInfectiousDiseases:2020,jiang:medRxiv:2020,lauer:AnnInternMed:2020,li:NEJM:2020,linton:J.Clin.Med.:2020,ma:medRxiv:2020,zhang:TheLancetInfectiousDiseases:2020}.
+Data provided in \\nameref{S1_Dataset}."
 
 #' Load the distributions
 load("data/savedDistributions.RData")
@@ -1758,7 +1926,7 @@ distPlots <- plot_grid(
   ggplot(genDistMLE, aes(x = t, y = pdf)) +
     geom_ribbon(aes(ymin = lower, ymax = upper), colour = "transparent", fill = "grey") +
     geom_vline(xintercept = genParams$mean, linetype = "dashed", colour = "darkgrey") +
-    annotate("text", label = paste0(" mean = ", format(round(genParams$mean, 1), nsmall = 1), " days"), size = theme_get()$text[["size"]]/3, x = genParams$mean, y = labY, hjust = 0, vjust = 0) +
+    annotate("text", label = paste0(" mean = ", format(round(genParams$mean, 1), nsmall = 1), "d"), size = theme_get()$text[["size"]]/3, x = genParams$mean, y = labY, hjust = 0, vjust = 0) +
     geom_line() +
     coord_cartesian(xlim = c(0,15), ylim = yLim, expand = F) +
     labs(x = "generation time", y = "probability density") +
@@ -1769,7 +1937,7 @@ distPlots <- plot_grid(
   ggplot(infProfMLE, aes(x = t, y = pdf)) +
     geom_ribbon(aes(ymin = lower, ymax = upper), colour = "transparent", fill = "grey") +
     geom_vline(xintercept = infParams$mean, linetype = "dashed", colour = "darkgrey") +
-    annotate("text", label = paste0(" mean = ", format(round(infParams$mean, 1), nsmall = 1), " days"), size = theme_get()$text[["size"]]/3, x = infParams$mean, y = labY, hjust = 0, vjust = 0) +
+    annotate("text", label = paste0(" mean = ", format(round(infParams$mean, 1), nsmall = 1), "d"), size = theme_get()$text[["size"]]/3, x = infParams$mean, y = labY, hjust = 0, vjust = 0) +
     geom_line() +
     coord_cartesian(xlim = c(-10,15), ylim = yLim, expand = F) +
     labs(x = "days post symptoms", y = "probability density") +
@@ -1779,7 +1947,7 @@ distPlots <- plot_grid(
   #' Incubation period
   ggplot(incDist, aes(x = t, y = pdf)) +
     geom_vline(xintercept = incParams$mean, linetype = "dashed", colour = "darkgrey") +
-    annotate("text", label = paste0(" mean = ", format(round(incParams$mean, 1), nsmall = 1), " days"), size = theme_get()$text[["size"]]/3, x = incParams$mean, y = labY, hjust = 0, vjust = 0) +
+    annotate("text", label = paste0(" mean = ", format(round(incParams$mean, 1), nsmall = 1), "d"), size = theme_get()$text[["size"]]/3, x = incParams$mean, y = labY, hjust = 0, vjust = 0) +
     geom_line() +
     coord_cartesian(xlim = c(0,20), ylim = yLim, expand = F) +
     labs(x = "incubation period (days)", y = "probability density") +
@@ -1791,8 +1959,13 @@ distPlots <- plot_grid(
   labels = c("B","C","D")
 )
 
+#' Save the source data
+write.csv(genDistMLE, file = "data/TTIQ-S1_Appendix_IB-sourcedata.csv", row.names = F, quote = F)
+write.csv(infProfMLE, file = "data/TTIQ-S1_Appendix_IC-sourcedata.csv", row.names = F, quote = F)
+write.csv(incDist, file = "data/TTIQ-S1_Appendix_ID-sourcedata.csv", row.names = F, quote = F)
+
 plot_grid(
-  ggdraw() + draw_image(magick::image_read_pdf("TTIQ-timeIntervals.pdf", density = 600), scale = 0.9),
+  ggdraw() + draw_image(magick::image_read_pdf("TTIQ-timeIntervals.pdf", density = 600), scale = 1.0),
   distPlots, ncol = 1, labels = c("A",""), rel_heights = c(1,1.4)
 )
 ```
@@ -1852,7 +2025,6 @@ Infectivity profile $p(t|\theta_p)$ & Shifted Student's \emph{t} &
 mean = -0.042, sd = 2.876, median = -0.078 &
 shift = -0.078, scale = 1.86, df = 3.35 \\ \hline
 \end{tabular}
-
 \caption{Parameters of the distributions used in this work to describe the timing of infection events.
 The meta-log-normal incubation period distribution is the average of seven reported log-normal incubation period distributions as described by \citet{ferretti:medRxiv:2020} \citep{bi:TheLancetInfectiousDiseases:2020,jiang:medRxiv:2020,lauer:AnnInternMed:2020,li:NEJM:2020,linton:J.Clin.Med.:2020,ma:medRxiv:2020,zhang:TheLancetInfectiousDiseases:2020}.
 The properties listed for the incubation period distribution are the mean, standard deviation (sd), and median of this meta-log-normal distribution.
@@ -1860,7 +2032,7 @@ The shifted Student's \emph{t} distribution for the infectivity profile is defin
 \label{tab:distribution-parameters}
 \end{table}
 
-# Asymptomatic vs symptomatic infections {-}
+## Asymptomatic versus symptomatic infections {-}
 We assume that a fraction $a$ of all infections are persistently asymptomatic, with the remainder being classed as symptomatic (which includes individuals that are pre-symptomatic and post-symptom onset).
 Whether a new infectee is persistently-asymptomatic or not is assumed to be independent of whether the infector was persistently-asymptomatic or not.
 A meta-analysis has estimated a fraction $a \approx 20\%$ of infections are asymptomatic \citep{buitrago-garcia:PLOSMedicine:2020}.
@@ -1888,11 +2060,10 @@ As $\alpha$ must be a positive number, we can bound the fraction of transmission
 Although we modify the relative infectiousness of asymptomatic versus symptomatic individuals, we assume that the distribution of infection times is equal for both classes.
 
 
-# Quantifying secondary infections under TTIQ {-}
+## Quantifying secondary infections under TTIQ {-}
 
-```{r flowchart-secondary, fig.align = "center", out.width = "0.8\\textwidth", fig.cap = caption}
+```{r flowchart-secondary, fig.align = "center", fig.cap = caption}
 caption <- "Flowchart for computing the number of secondary infections under testing \\& isolation."
-
 ggdraw() + draw_image(image_read_pdf("TTIQ-flowchart-secondary-1.pdf", density = 600), scale = 1.0)
 ```
 
@@ -1921,14 +2092,14 @@ n_2(f,\Delta_1 | \theta_p)
 \label{eq:secondaryCases}
 \end{equation}
 where the first term represents the secondary infections caused by asymptomatic individuals (who cannot be isolated), the first term in the bracket represents the secondary infections caused by symptomatic index cases prior to their isolation, and the final term is the secondary infections caused by symptomatic individuals who are not isolated.
+where $J(t|\theta) = \int_0^{\infty} {\rm d}t' \, g(t') Q(t'+t|\theta)$.-->
 Now replacing $a R_a = \alpha R$ and $(1-a)R_s = (1-\alpha)R$ [from Eq. \eqref{eq:alpha}], we can rearrange Eq. \eqref{eq:secondaryCases} to give
 \begin{equation}
 n_2(f,\Delta_1 | \theta_p) = R \left[(1-\alpha)f P(\Delta_1|\theta_p) + (1-(1-\alpha)f)\right].
 \label{eq:secondaryCasesAvg}
 \end{equation}
 
-
-# Quantifying tertiary infections under TTIQ {-}
+## Quantifying tertiary infections under TTIQ {-}
 Each infected secondary contact has the potential to cause further infections, which will be the tertiary contacts of the initial infected.
 The number of infections caused by a secondary contact who is infected at $t_2$ and isolated at time $T_2$, will be
 \begin{equation}
@@ -1939,7 +2110,7 @@ Note that we use the generation time distribution here, as our reference point i
 
 Under TTIQ interventions, the symptomatic index and secondary cases can be isolated following a positive test result after symptom onset.
 If an index case is confirmed positive, then contact tracing can be used to identify and quarantine individuals who have recently been exposed to the confirmed case.
-Quarantining these individuals prevents the onward infection of tertiary contacts (Fig. \ref{fig:schematic}B).
+Quarantining these individuals prevents the onward infection of tertiary contacts (Fig. \ref{fig:schematic}B in the manuscript).
 Importantly, whether an individual is quarantined is independent of symptom status.
 We introduce three further parameters to quantify contact tracing and quarantine:
 i) $\tau > 0$, the duration of lookback prior to symptom onset of the index case in which contacts are traced;
@@ -1954,7 +2125,7 @@ ggdraw() + draw_image(image_read_pdf("TTIQ-flowchart-tertiary-1.pdf", density = 
 
 There are many permutations of events that contribute to the number of tertiary infections under TTIQ, as shown in Fig. \ref{fig:flowchart-tertiary}.
 The index case may not be detected due to being asymptomatic ($a$), or being symptomatic but not tested ($(1-a)(1-f)$), and hence contact tracing is not possible.
-If the index case is symptomatic and detected ($(1-a)f$), then a fraction $g$ of the secondary contacts that were infected within the contact tracing window ($t_{S_1}-\tau \le t_2 \le t_{S_1}+\Delta_1$) are quarantined at time $t_{S_1}+\Delta_1+\Delta_2$ (as shown in Fig. \ref{fig:schematic}B of the main manuscript).
+If the index case is symptomatic and detected ($(1-a)f$), then a fraction $g$ of the secondary contacts that were infected within the contact tracing window ($t_{S_1}-\tau \le t_2 \le t_{S_1}+\Delta_1$) are quarantined at time $t_{S_1}+\Delta_1+\Delta_2$ (as shown in Fig. \ref{fig:schematic}B in the manuscript).
 The remaining fraction $1-g$ of secondary contacts, as well as the secondary contacts that were infected outside of the contact tracing window ($t_2 < t_{S_1}-\tau$), are not quarantined.
 However, the non-traced contacts may themselves become symptomatic and, after testing, become index cases that are isolated at time $t_{S_2}+\Delta_1$, where $t_{S_2}$ is the symptom onset time of the secondary case.
 By considering these different scenarios, we arrive at an expression for the number of tertiary infections per index case under TTIQ,
@@ -2058,13 +2229,12 @@ This leads to the expression
 \label{eq:tertiaryCasesAvgSimp-asymp}
 \end{equation}
 
-
-# Reproductive number under TTIQ {-}
+## Reproductive number under TTIQ {-}
 For our branching process model, we define the reproductive number as
 \begin{equation}
 R_{\rm TTIQ} = \dfrac{n_3(f,\Delta_1,\tau,g,\Delta_2 | \theta_p,\theta_q)}{n_2(f,\Delta_1 | \theta_p)},
 \end{equation}
-where $n_2$ [Eq. \eqref{eq:secondaryCasesAvg}] and $n_3$ [Eq. \eqref{eq:tertiaryCasesAvgSimp}] are the expected number of tertiary and secondary infections per infected, respectively.
+where $n_2$ [Eq. \eqref{eq:secondaryCasesAvg}] and $n_3$ [Eq. \eqref{eq:tertiaryCasesAvgSimp}] are the expected number of secondary and tertiary infections per infected, respectively.
 In other words, we define the reproductive number as the average number of infecteds in the third generation per infected in the second generation.
 It is necessary to work with the third generation (as opposed to just the first and second generations) as this is where the impact of contact tracing and quarantine is first observed.
 
@@ -2074,7 +2244,7 @@ R_{\rm TI} = \dfrac{n_3(f,\Delta_1 | \theta_p,\theta_q)}{n_2(f,\Delta_1 | \theta
 \end{equation}
 where $n_3$ is now given by Eq. \eqref{eq:tertiaryCases-noTracingAvg}.
 
-# Confidence intervals {-}
+## Confidence intervals {-}
 The primary sources of uncertainty in the outcomes of this model come from the generation time distribution and infectivity profile, which are inferred from empirical serial interval distributions \citep{ferretti:medRxiv:2020}.
 Following \citet{ferretti:medRxiv:2020}, we use a likelihood ratio test to extract sample parameter sets for each distribution that lie within the 95\% confidence interval.
 
@@ -2086,23 +2256,222 @@ We then use these sampled parameter sets to generate $R_{\rm TTIQ}$, and the ext
 We need to use and combine estimates of both $\theta_p$ and $\theta_q$.
 We assume parameter independence, and keep all $(\theta_p,\theta_q)$ combinations whose joint likelihood satisfies $\ln \mathcal{L}(\theta_p) + \ln \mathcal{L}(\theta_q) > \ln \mathcal{L}(\hat{\theta}_p) + \ln \mathcal{L}(\hat{\theta}_q) - \lambda_5/2$.
 
-# Impact of asymptomatics {-}
-The relative contribution to transmission of asymptomatics versus symptomatics is captured by the parameter $\alpha$, which we define as the fraction of transmission attributable to asymptomatic individuals in the absence of TTIQ [Eq. \eqref{eq:alpha}].
+
+\clearpage
+# S2 Appendix. Supplementary results -- Impact of asymptomatics {-}
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand*\thesection{S\arabic{section}}
+\renewcommand*\theequation{S2.\arabic{equation}}
+\renewcommand*\thefigure{\Roman{figure}}
+\renewcommand*\thetable{\Roman{table}}
+
+The relative contribution to transmission of asymptomatics versus symptomatics is captured by the parameter $\alpha$, which we define as the fraction of transmission attributable to asymptomatic individuals in the absence of TTIQ [Eq. \eqref{eq:alpha} in \nameref{S1_Appendix}].
 This fraction is difficult to estimate empirically.
 However, it has been observed that approximately $20\%$ of infections are asymptomatic, and that asymptomatically-infected individuals have a lower risk of onward transmission \citep{buitrago-garcia:PLOSMedicine:2020}.
-Hence we expect $\alpha$ to lie somewhere in the region $0\% \le \alpha \le 20%$, but with substantial uncertainty in this estimate.
+Hence we expect $\alpha$ to lie somewhere in the region $0\% \le \alpha \le 20\%$, but with substantial uncertainty in this estimate.
 
 By varying $\alpha$ in our model, we can observe how TTIQ effectiveness depends on the amount of asymptomatic transmission.
+We repeat the analysis shown in Fig. \ref{fig:tertiaryCases-single} in the manuscript for $\alpha \in \{10\%,20\%,30\%,40\%\}$ to see how the contribution of asymptomatics affects our predictions of TTIQ efficacy (Fig. \ref{fig:asymptomatic-single-sensitivity}).
+We observe the same trends as in Fig. \ref{fig:tertiaryCases-single} in the manuscript across the different ranges of $\alpha$: increasing $f$ and decreasing $\Delta_1$ are the most effective strategies to reduce $R_{\rm TTIQ}$ below one.
+
+```{r asymptomatic-single-sensitivity, fig.height = 6, fig.cap = caption}
+caption <- "The response of the reproductive number $R_{\\rm TTIQ}$ to single TTIQ parameter perturbations while varying the fraction of transmission that is attributed to asymptomatic infections $\\alpha$.
+We set the baseline $R=1.5$ throughout, which is the intensity of the epidemic in the absence of any TTIQ intervention.
+We consider perturbations from the focal TTIQ parameter combinations, with $f=70\\%$, $\\Delta_1=0$ days, $g = 50\\%$, $\\Delta_2=1$ day, and $\\tau=2$ days.
+$R_{\\rm TTIQ}$ for the focal parameter sets are shown as thin black lines.
+With $f=0$ (no TTIQ) we expect $R_{\\rm TTIQ} = R$ (upper grey line).
+We then vary each TTIQ parameter individually, keeping the remaining four parameters fixed at the focal values.
+The upper panel shows the probability parameters $f$ and $g$, while the lower panel shows the parameters which carry units of time (days).
+The critical threshold for controlling an epidemic is $R_{\\rm TTIQ} = 1$ (lower grey line).
+Asymptomatic individuals are not tested or isolated, but are subject to quarantine after contact tracing.
+Data provided in \\nameref{S1_Dataset}."
+
+#' Function to perturb a single parameter and compute tertiary cases
+perturbParam <- function(paramList, param, values, addCI = F, index = NULL) {
+  load("data/savedDistributions.RData")
+  #' Perturb values
+  paramList[[param]] <- values
+  tertiaryCases <- getTertiaryCases(paramList = paramList, times = times,
+                                    stepSize = stepSize, infProf.df = infProfMLE,
+                                    genDist.df = genDistMLE, integral.df = integralMLE)
+  df <- data.frame(
+    param = factor(param, levels = c("f", "g", "Delta1", "Delta2", "tau")),
+    value = values,
+    ter.per.sec = tertiaryCases$ter.per.sec
+  )
+  
+  #' Now add confidence intervals
+  if (addCI) {
+    out.filename <- paste0("data/tertiaryCases-single-CI-sensitivity_", param, "_", index, ".RData")
+    if (file.exists(out.filename)) {
+      #' Load files and add lower and upper to df
+      load(out.filename)
+      df$lower <- out.df$lower
+      df$upper <- out.df$upper
+    } else {
+      #' Need to create file
+      print(paste("File", out.filename, "is missing."))
+      print("Pass the following info file to TTIQ-CIscript.R to generate confidence intervals, and then try again.")
+      #' Create file "info-for-script_xx.RData" here
+      #' First we create the function which accepts id and idGD and returns a
+      #' dataframe for the number of cases for the given parameter set
+      func <- function(id, idGD) {
+        getTertiaryCases(paramList = paramList, times = times,
+                         stepSize = stepSize, infProf.df = infProfLLH[[id]],
+                         genDist.df = genDistLLH[[idGD]], integral.df = integralLLH[[idGD]])
+      }
+      #' Which output do we want to construct the CI for?
+      output <- "ter.per.sec"
+      #' Now add the function(s), parameter list, and the output filename
+      info.filename <- paste0("info-for-script-sensitivity_", param, "_", index,".RData")
+      save(func, getTertiaryCases, output, paramList, out.filename, file = info.filename)
+      print(paste("Info file is", info.filename))
+      print(paste("The output file", out.filename, "can be generated by executing:"))
+      #' R --vanilla --slave < TTIQ-CIscript.R --args info-for-script_xx.RData run
+      print(paste("R --vanilla --slave < TTIQ-CIscript.R --args", info.filename, "run"))
+      addCI <- FALSE
+    }
+  }
+  if (!addCI) {
+    df$lower <- 1
+    df$upper <- 1
+  }
+  return(df)
+}
+
+#' Function to compute all data
+getData <- function(focalParams, addCI = F, index = NULL) {
+  #' Number of cases under focal parameters
+  load("data/savedDistributions.RData")
+  focal <- getTertiaryCases(paramList = focalParams, times = times,
+                            stepSize = stepSize, infProf.df = infProfMLE,
+                            genDist.df = genDistMLE, integral.df = integralMLE)
+  #' Perturb parameters and compute cases
+  df <- rbind(
+    perturbParam(paramList = focalParams, param = "f", values = seq(0,1,0.05), addCI = addCI, index = index),
+    perturbParam(paramList = focalParams, param = "g", values = seq(0,1,0.05), addCI = addCI, index = index),
+    perturbParam(paramList = focalParams, param = "Delta1", values = seq(0,5,0.25), addCI = addCI, index = index),
+    perturbParam(paramList = focalParams, param = "Delta2", values = seq(0,5,0.25), addCI = addCI, index = index),
+    perturbParam(paramList = focalParams, param = "tau", values = seq(0,5,0.25), addCI = addCI, index = index)
+  )
+  df$index <- factor(index)
+  focal$index <- factor(index)
+  return(list(focal = focal, perturbed = df))
+}
+
+
+#' Now compute data
+focalParams.list <- list(
+  list(f = 0.7, g = 0.5, Delta1 = 0, Delta2 = 1, tau = 2, R = 1.5, alpha = 0.1),
+  list(f = 0.7, g = 0.5, Delta1 = 0, Delta2 = 1, tau = 2, R = 1.5, alpha = 0.2),
+  list(f = 0.7, g = 0.5, Delta1 = 0, Delta2 = 1, tau = 2, R = 1.5, alpha = 0.3),
+  list(f = 0.7, g = 0.5, Delta1 = 0, Delta2 = 1, tau = 2, R = 1.5, alpha = 0.4)
+)
+allData <- lapply(seq_along(focalParams.list), function(index) {
+  getData(focalParams = focalParams.list[[index]], addCI = T, index = index)
+})
+focalCases <- lapply(allData, function(data) data$focal) %>% bind_rows()
+focalCases$R <- as.numeric(levels(focalCases$R))[focalCases$R]
+perturbedCases <- lapply(allData, function(data) data$perturbed) %>% bind_rows()
+
+#' Plot
+yLim <- c(0.45,1.55)
+plot_labeller <- function(variable, value) {
+  labs <- lapply(value, function(index) {
+    index <- as.numeric(levels(value))[index]
+    lett <- LETTERS[index]
+    #f <- focalParams.list[[index]]$f
+    alpha <- scales::percent(focalParams.list[[index]]$alpha)
+    bquote(bold(.(lett))~~alpha~"="~.(alpha))
+  })
+  return(labs)
+}
+myColours <- c(f = palette_OkabeIto[1], g = palette_OkabeIto[4],
+               Delta1 = palette_OkabeIto[2], Delta2 = palette_OkabeIto[5],
+               tau = palette_OkabeIto[3])
+
+probPlot <- ggplot(perturbedCases[perturbedCases$param %in% c("f","g"),],
+                   aes(x = value, y = ter.per.sec, colour = param)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper, fill = param),
+              alpha = 0.4, colour = "transparent") +
+  geom_hline(yintercept = 1, colour = "darkgrey", size = lineSize) +
+  geom_hline(data = focalCases, aes(yintercept = R),
+             colour = "darkgrey", size = lineSize) +
+  geom_hline(data = focalCases, aes(yintercept = ter.per.sec),
+             colour = "black") +
+  geom_line(size = lineSize) + 
+  facet_grid(~index, labeller = plot_labeller) +
+  scale_colour_manual(values = myColours,
+                      aesthetics = c("colour","fill"), name = NULL) +
+  coord_cartesian(xlim = c(0,1), ylim = yLim, expand = F) +
+  scale_x_continuous(labels = scales::percent) +
+  labs(x = "probability", y = expression(R[TTIQ])) +
+  plotTheme +
+  theme(plot.margin = margin(t = 1.1, r = 1.0, unit = "lines"),
+        legend.position = c(0.93,0.20),#"right",#c(0.95,0.7),
+        legend.background = element_blank(),
+        legend.text = element_text(size = 12),
+        legend.key.size = unit(1.5,"line"),
+        strip.text = element_text(hjust = 0, size = 12),
+        panel.spacing = unit(1.5,"lines"))
+
+myLabs <- expression(Delta[1],Delta[2],tau)
+names(myLabs) <- c("Delta1","Delta2","tau")
+timePlot <- ggplot(perturbedCases[perturbedCases$param %in% c("Delta1","Delta2","tau"),],
+                   aes(x = value, y = ter.per.sec, colour = param)) +
+  geom_ribbon(aes(ymin = lower, ymax = upper, fill = param),
+              alpha = 0.4, colour = "transparent") +
+  geom_hline(yintercept = 1, colour = "darkgrey", size = lineSize) +
+  geom_hline(data = focalCases, aes(yintercept = R),
+             colour = "darkgrey", size = lineSize) +
+  geom_hline(data = focalCases, aes(yintercept = ter.per.sec),
+             colour = "black") +
+  geom_line(size = lineSize) +
+  facet_grid(~index) +
+  scale_colour_manual(values = myColours,
+                      aesthetics = c("colour","fill"), name = NULL, labels = myLabs) +
+  coord_cartesian(xlim = c(0,5), ylim = yLim, expand = F) +
+  labs(x = "time (days)", y = expression(R[TTIQ])) +
+  plotTheme + theme(plot.margin = margin(t = 0.5, r = 1.0, unit = "lines"),
+                    legend.position = c(0.94,0.25),#"right",#c(0.82,0.7),
+                    legend.background = element_blank(),
+                    legend.text = element_text(size = 14, hjust = 0.5),
+                    legend.key.size = unit(1.5,"line"),
+                    strip.background = element_blank(),
+                    strip.text = element_blank(),
+                    panel.spacing = unit(1.5,"lines"))
+
+#' Save the source data
+write.csv(perturbedCases, file = "data/TTIQ-S2_Appendix_I-sourcedata.csv", row.names = F, quote = F)
+
+#' Extract legend and then plot together
+# probPlot.legend <- get_legend(probPlot)
+# timePlot.legend <- get_legend(timePlot)
+# probPlot <- probPlot + theme(legend.position = "none")
+# timePlot <- timePlot + theme(legend.position = "none")
+# 
+# plot_grid(
+#   plot_grid(probPlot, timePlot, nrow = 2),
+#   plot_grid(probPlot.legend, timePlot.legend, nrow = 2),
+#   nrow = 1, rel_widths = c(1,0.08)
+# )
+plot_grid(probPlot, timePlot, nrow = 2, rel_heights = c(1,0.9))
+```
+
 In Fig. \ref{fig:max-asymptomatic}, we show that idealised TTIQ (and also just testing \& isolation alone) is maximally effective when $\alpha = 0$ (i.e. no transmission from asymptomatic individuals).
 The reason for this is that identifying index cases underlies all TTIQ processes, and identification is only possible if individuals are symptomatic.
 
-```{r max-asymptomatic, fig.width = 10, fig.cap = caption}
+```{r max-asymptomatic, fig.height = 3.5, fig.cap = caption}
 caption <- "The maximum baseline $R$-value that can be suppressed by TTIQ interventions, as a function of the fraction of transmission that is attributable to asymptomatics $\\alpha$.
 As $\\alpha \\to 100\\%$, no infecteds develop symptoms and hence no cases are isolated and no contact tracing occurs.
 In this case, TTIQ has no effect and epidemics are only suppressed if the baseline $R$-value is already below one.
 To achieve the maximum level of suppression, each symptomatic individual ($f=100\\%$) would have to isolate immediately at symptom onset ($\\Delta_1=0$ days), which represents the upper limit of testing \\& isolation performance.
 With additional contact tracing, we assume that $g=100\\%$ of contacts of the symptomatic cases who were infected up to $\\tau=5$ days before symptom onset are quarantined immediately ($\\Delta_2=0$ days).
-Shaded regions are 95\\% confidence intervals, representing the uncertainty in the inferred generation time distribution and infectivity profile."
+Shaded regions are 95\\% confidence intervals, representing the uncertainty in the inferred generation time distribution and infectivity profile.
+Data provided in \\nameref{S1_Dataset}."
 
 #' Compute R_TTIQ for testing & isolation (g=0) and with additional TTIQ (g=1)
 paramList <- list(
@@ -2133,7 +2502,7 @@ plot <- ggplot(df, aes(x = alpha, y = 1/ter.per.sec, colour = g)) +
                 labels = c(seq(1,6),"",8,"",seq(10,90,10))) +
   coord_cartesian(xlim = c(0,1), ylim = c(0.9,50), expand = F) +
   labs(x = expression("fraction of transmission attributable to asymptomatics without TTIQ" ~ (alpha)), y = "maximum baseline R-value that\ncan be suppressed by TTIQ") +
-  plotTheme + theme(legend.position = c(0.8, 0.8), plot.margin = unit(20*c(1,1,1,1), "points"))
+  plotTheme + theme(legend.position = c(0.8,0.8), plot.margin = unit(20*c(1,1,1,1), "points"))
 
 #' Do we add CI to the plot?
 addCI <- T
@@ -2172,6 +2541,9 @@ if (addCI) {
   }
 }
 
+#' Save the source data
+write.csv(df, file = "data/TTIQ-S2_Appendix_II-sourcedata.csv", row.names = F, quote = F)
+
 plot
 
 #' Read values
@@ -2184,24 +2556,24 @@ plot
 # paste("max preventable = ", paste0(1/dat$ter.per.sec, ", [", 1/dat$upper, ", ", 1/dat$lower, "]"))
 ```
 
-Even for imperfect TTIQ interventions with inaccuracies and delays, the fraction of transmission attributable to asymptomatics plays an important role in the effectiveness TTIQ.
+Even for imperfect TTIQ interventions with inaccuracies and delays, the fraction of transmission attributable to asymptomatics plays an important role in the effectiveness of TTIQ.
 Under testing \& isolation alone, the effective reproductive number $R_{\rm TI}$ increases linearly with $\alpha$, while with additional contact tracing \& quarantine the increase is super-linear (Fig. \ref{fig:asymptomatic-impact}A).
 
 Finally, we note that TTIQ leads to an increase in the fraction of transmissions that are attributable to asymptomatics, when compared to this fraction in the absence of TTIQ (Fig. \ref{fig:asymptomatic-impact}B).
 This is because the transmission due to symptomatics is lowered by testing \& isolation, but transmission due to asymptomatics is untouched.
 Furthermore, additional contact tracing \& quarantine does not affect this fraction as it prevents transmission equally from asymptomatic and symptomatic individuals, hence the lines in Fig. \ref{fig:asymptomatic-impact}B are overlapping.
 
-```{r asymptomatic-impact, fig.width = 8, fig.height = 6, fig.cap = caption}
+```{r asymptomatic-impact, fig.height = 5, fig.cap = caption}
 caption <- "A) The impact of the level of asymptomatic transmission on the reproductive number $R_{\\rm TTIQ}$.
 Here we consider imperfect TTIQ interventions, with $f=70\\%$, $\\Delta_1=2$ days, $\\Delta_2=1$ day, $\\tau=2$ days, and a baseline reproductive number of $R=1.5$.
-These parameters are equivalent to those used in Fig. \\ref{fig:tertiaryCases-single}C, along with $g=50\\%$.
+These parameters are equivalent to those used in Fig. \\ref{fig:tertiaryCases-single}C in the manuscript, along with $g=50\\%$.
 Here we also consider $g=0\\%$ (testing \\& isolation only) and $g=100\\%$ (all traced contacts are quarantined).
 Shaded regions are 95\\% confidence intervals, representing the uncertainty in the inferred generation time distribution and infectivity profile.
-B) The fraction of $R_{\\rm TTIQ}$ from panel A that is attributable to asymptomatic infection, as described by Eq. \\eqref{eq:tertiaryCasesAvgSimp-asymp}.
+B) The fraction of $R_{\\rm TTIQ}$ from panel A that is attributable to asymptomatic infection, as described by Eq. \\eqref{eq:tertiaryCasesAvgSimp-asymp} in \\nameref{S1_Appendix}.
 The diagonal grey line represents the fraction of transmission attributable to asymptomatics without TTIQ interventions.
 Hence, the TTIQ intervention increases the fraction of transmission that is attributable to asymptomatics.
 The lines for testing \\& isolation only, $g=50\\%$, and $g=100\\%$ are overlapping.
-"
+Data provided in \\nameref{S1_Dataset}."
 
 #' Compute R_TTIQ for testing & isolation (g=0) and with additional TTIQ (g=0.5,1)
 paramList <- list(
@@ -2231,7 +2603,7 @@ rPlot <- ggplot(df, aes(x = alpha, y = ter.per.sec, colour = g)) +
                      labels = scales::percent) +
   coord_cartesian(xlim = c(0,1), ylim = c(0,1.55), expand = F) +
   labs(x = expression("fraction of transmission attributable to asymptomatics without TTIQ" ~ (alpha)), y = expression(atop(R[TTIQ], "(or " * R[TI] * ")"))) +
-  plotTheme + theme(legend.position = c(0.8,0.3), plot.margin = unit(20*c(1,1,1,1), "points"))
+  plotTheme + theme(legend.position = c(0.8,0.3), plot.margin = unit(20*c(0,1,0.2,1), "points"))
 
 #' Do we add CI to the plot?
 addCI <- T
@@ -2280,24 +2652,148 @@ asympPlot <- ggplot(df, aes(x = alpha, y = frac_asymptomatic, colour = g)) +
                      labels = scales::percent) +
   scale_y_continuous(breaks = seq(0,1,0.2), labels = scales::percent) +
   coord_cartesian(xlim = c(0,1), ylim = c(0,1), expand = F) +
-  labs(x = expression("fraction of transmission attributable to asymptomatics without TTIQ" ~ (alpha)), y = "fraction of transmission\nattributable to asymptomatics\n with TTIQ") +
-  plotTheme + theme(legend.position = c(0.8,0.3), plot.margin = unit(20*c(1,1,1,1), "points"))
+  labs(x = expression("fraction of transmission attributable to asymptomatics without TTIQ" ~ (alpha)), y = "fraction of transmission\nattributable to\nasymptomatics with TTIQ") +
+  plotTheme + theme(legend.position = c(0.8,0.3), plot.margin = unit(20*c(0.2,1,0,1), "points"))
+
+#' Save the source data
+write.csv(df, file = "data/TTIQ-S2_Appendix_III-sourcedata.csv", row.names = F, quote = F)
 
 plot_grid(rPlot, asympPlot, ncol = 1, axis = "lr", align = "hv", labels = "AUTO")
 ```
 
+\clearpage
+# S3 Appendix. Supplementary results -- Overdispersion {-}
+\setcounter{section}{0}
+\setcounter{equation}{0}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+\renewcommand*\thesection{S\arabic{section}}
+\renewcommand*\theequation{S3.\arabic{equation}}
+\renewcommand*\thefigure{\Roman{figure}}
+\renewcommand*\thetable{\Roman{table}}
+We have focused our analysis around a fixed baseline reproductive value $R$; i.e. all individuals would infect $R$ contacts in the absence of TTIQ.
+Now let us assume that the reproductive value per individual is sampled from an overdispersed negative binomial distribution with dispersion parameter $k$ and mean $R$.
+In particular, let the index case infect $R_I$ secondary cases in the absence of TTIQ, where
+\begin{equation}
+R_I \sim {\rm NB}(k,k/(k+R)).
+\end{equation}
+Now each secondary case $i \in \{1,2,\dots,R_I\}$ infects $R_{S,i} \sim {\rm NB}(k,k/(k+R))$ tertiary cases such that, in the absence of TTIQ,
+\begin{equation}
+n_3 = \sum_{i=1}^{R_I} R_{S,i} \sim {\rm NB}(kR_I,k/(k+R)),
+\end{equation}
+This distribution follows from the fact that negative-binomially distributed numbers can be represented as the sum of $k$ geometrically distributed numbers, and so the sum of negative binomials is also a negative binomial with appropriate size parameter.
 
-# Quarantine vs isolation {-}
-```{r quarantine-vs-isolation, fig.height = 5, fig.cap = caption}
-caption <- "The fraction of prevented transmission that can be attributed to quarantine, rather than isolation.
+The impact of overdisperal of the contact number distribution in the model is only felt on the baseline reproduction number $R$, which is factored-out of the expressions for the number of secondary or tertiary cases in the presence of TTIQ:
+\begin{align}
+n_2 &= R_I \times F(f,\Delta1), \\
+n_3 &= \left(\sum_{i=1}^{R_I} R_{S,i}\right) \times G(f,\Delta_1,g,\Delta_2,\tau).
+\end{align}
+Therefore, the variance of $n_2$ will be directly proportional to the variance of $R_I$, while the mean will be unchanged from the fixed-$R$ approach that we have used.
+
+Our reproductive number, which is defined as the ratio $R_{\rm TTIQ} = n_3/n_2$, then follows the distribution
+\begin{equation}
+\frac{n_3}{n_2} = \frac{X(R_I)}{R_I} \times \frac{G(f,\Delta_1,g,\Delta_2,\tau)}{F(f,\Delta1)},~\mbox{where}~\left\{\begin{matrix}X(R_I) \sim {\rm NB}(k R_I,k/(k+R)) \\ R_I \sim {\rm NB}(k,k/(k+R)).\end{matrix}\right.
+\end{equation}
+In Fig. \ref{fig:overdispersion}, we see that the expectation value of $n_3/n_2$ (which is ${\rm E}[X(R_I)/R_I]$ in the absence of TTIQ and scaled by a constant independent of $k$ otherwise) is equal to $R$, while the variance of $n_3/n_2$ has the same $k$-dependent shape as the negative binomial ($n_2$), but with a slightly lower magnitude.
+Hence, overdispersal does not affect our mean predictions, but it could lead to increased variance/uncertainty in those predictions.
+
+```{r overdispersion, fig.height = 5, fig.cap = caption}
+caption <- "The impact of overdispersion on the effective reproduction number.
+The number of contacts per index and secondary cases follow the same negative binomial distribution with mean $R=1.5$ and dispersion parameter $k$ (x-axis).
+Here we have assumed no TTIQ, such that $F(f,\\Delta1) = G(f,\\Delta_1,g,\\Delta_2,\\tau) = 1$.
+Data provided in \\nameref{S1_Dataset}."
+
+set.seed(42)
+nsim <- 1e5
+R0 <- 1.5
+xx <- lapply(10^seq(-2,2,0.25), function(k) {
+  secondary.cases <- rnbinom(n = nsim, size = k, prob = k/(R0+k))
+  tertiary.cases <- ifelse(secondary.cases == 0, 0, rnbinom(n = length(secondary.cases), size = k * secondary.cases, prob = k/(R0+k)))
+  ratio <- ifelse(secondary.cases == 0, 0, tertiary.cases/secondary.cases)
+  data.frame(k = k,
+             mean2 = mean(secondary.cases), var2 = var(secondary.cases),
+             mean3 = mean(tertiary.cases), var3 = var(tertiary.cases),
+             mean32 = mean(tertiary.cases)/mean(secondary.cases), var32 = var(tertiary.cases)/var(secondary.cases),
+             meanratio = mean(ratio), varratio = var(ratio),
+             meanratio.nozeros = mean(ratio[!(secondary.cases == 0)]), varratio.nozeros = var(ratio[!(secondary.cases == 0)])
+  )
+})
+xx <- do.call(rbind,xx)
+xx <- melt(xx, id.vars = c("k"))
+#labs <- c(mean2 = "<n[2]>", mean3 = "<n[3]>", mean32 = "<n[3]>/<n[2]>", meanratio = "<n[3]/n[2]>", meanratio.nozeros = "<n[3]/n[2]> s.t. n[2] != 0")
+labs <- c(mean2 = expression(E(n[2])), mean3 = expression(E(n[3])), mean32 = expression(E(n[3])/E(n[2])), meanratio = expression(E(n[3]/n[2])), meanratio.nozeros = expression(E(n[3]/n[2])~"s.t."~n[2]!=0))
+labsV <- c(var2 = expression("var"*(n[2])), var3 = expression("var"*(n[3])), var32 = expression("var"*(n[3])/"var"*(n[2])), varratio = expression("var"*(n[3]/n[2])), varratio.nozeros = expression("var"*(n[3]/n[2])~"s.t."~n[2]!=0))
+
+colours <- c(mean2 = palette_OkabeIto[1], mean3 = palette_OkabeIto[2],
+             mean32 = palette_OkabeIto[3], meanratio = palette_OkabeIto[4],
+             meanratio.nozeros = palette_OkabeIto[7])
+coloursV <- c(var2 = palette_OkabeIto[1], var3 = palette_OkabeIto[2],
+             var32 = palette_OkabeIto[3], varratio = palette_OkabeIto[4],
+             varratio.nozeros = palette_OkabeIto[7])
+
+sciFormat <- function(l) {
+  l <- format(l, scientific = TRUE)
+  ## Just plot 10^x
+  l <- gsub("e", "10^", gsub("^(.*)e", "e", l))
+  # Return this as an expression
+  parse(text = l)
+}
+
+plot_grid(
+  with(
+    #list(vars = c("mean2","mean3","mean32","meanratio","meanratio.nozeros")),
+    list(vars = c("mean2","mean3","mean32","meanratio.nozeros")),
+    ggplot(xx[xx$variable %in% vars,], aes(x = k, y = value, colour = variable, shape = variable)) +
+      geom_hline(yintercept = c(R0,R0^2), colour = "darkgrey") +
+      #geom_vline(xintercept = 0.54, colour = "grey") +
+      geom_line() +
+      geom_point() +
+      scale_colour_manual(values = colours, labels = labs) +
+      scale_shape_discrete(labels = labs) +
+      scale_x_log10(labels = sciFormat) +
+      scale_y_continuous(limits = c(0,NA)) +
+      labs(x = "dispersion parameter: k", y = "expectation value") +
+      theme_bw() + theme(legend.text.align = 0)
+  ),
+
+  with(
+    #list(vars = c("var2","var3","var32","varratio","varratio.nozeros")),
+    list(vars = c("var2","var3","var32","varratio.nozeros")),
+    ggplot(xx[xx$variable %in% vars,], aes(x = k, y = value, colour = variable, shape = variable)) +
+      #geom_vline(xintercept = 0.54, colour = "grey") +
+      geom_line() +
+      geom_point() +
+      scale_colour_manual(values = coloursV, labels = labsV) +
+      scale_shape_discrete(labels = labsV) +
+      scale_x_log10(labels = sciFormat) +
+      scale_y_log10(labels = sciFormat) +
+      labs(x = "dispersion parameter: k", y = "variance") +
+      theme_bw() + theme(legend.text.align = 0)
+  ),
+  ncol = 1, align = "hv", axis = "lr"
+)
+
+#' Save the source data
+write.csv(xx, file = "data/TTIQ-S3_Appendix_I-sourcedata.csv", row.names = F, quote = F)
+```
+
+\clearpage
+# S1 Fig. Quarantine versus isolation {-}
+\setcounter{figure}{0}
+\renewcommand*\thefigure{S\arabic{figure}}
+
+```{r quarantine-vs-isolation, fig.height = 4.5, fig.cap = caption}
+caption <- "\\textbf{Quarantine versus isolation} The fraction of prevented transmission that can be attributed to quarantine, rather than isolation.
 Let $R_{\\rm TTIQ}(g)$ be the reproductive number in the presence of TTIQ interventions in which a fraction $g$ of contacts of identified index cases are quarantined.
 In the absence of TTIQ measures, we expect a reproductive number of $R$.
 We then define $Y(g) = R-R_{\\rm TTIQ}(g)$ as reduction of transmission due to TTIQ, and $Y(0) = R-R_{\\rm TTIQ}(0)$ as the reduction of transmission due only to isolation (i.e. no contact tracing \\& quarantine).
 We then define the fraction of prevented transmission due to quarantine as
 $[Y(g)-Y(0)]/Y(g)$, which we plot as a function of $g$.
+Note that we are computing how much extra transmission is prevented by quarantine, which may just be one days worth of transmission before the contact becomes symptomatic and would anyway be isolated.
 We vary the fraction of symptomatic index cases that are isolated $f$ (colour), and we fix $\\Delta_1 = \\Delta_2 = \\tau = 2$ days.
 We further fix the fraction of transmission that is attributed to asymptomatic infections to $\\alpha=20\\%$ and $R=1.5$ (although the fraction shown is independent of $R$).
-Above the horizontal line, more transmission is prevented by quarantine than by isolation."
+Above the horizontal line, more transmission is prevented by quarantine than by isolation.
+Data provided in \\nameref{S1_Dataset}."
 
 paramList <- list(
   alpha = 0.2,
@@ -2331,24 +2827,32 @@ df$g <- as.numeric(levels(df$g))[df$g]
 ggplot(df, aes(x = g, y = frac, colour = f, group = f)) +
   geom_hline(yintercept = 0.5, colour = "darkgrey", size = lineSize) +
   geom_line() +
-  scale_colour_viridis_d(end = 0.9, option = "inferno", labels = scales::percent(as.numeric(levels(df$f))),
+  scale_colour_viridis_d(end = 0.9, option = "inferno",
+                         labels = scales::percent(as.numeric(levels(df$f))),
                          name = "fraction of\nsymptomatic index\ncases isolated (f)") +
   scale_x_continuous(breaks = seq(0,1,0.1), labels = function(x) scales::percent(x, accuracy = 1)) +
   scale_y_continuous(breaks = seq(0,1,0.1), labels = function(x) scales::percent(x, accuracy = 1)) +
-  labs(x = expression("fraction of contacts quarantined"~(g)), y = "fraction of prevented transmission due to quarantine") +
+  labs(x = expression("fraction of contacts quarantined"~(g)),
+       #y = "fraction of prevented transmission due to quarantine"
+       y = expression(over("(transmission prevented by isolation & quarantine) - (transmission prevented by isolation)","(transmission prevented by isolation & quarantine)"))) +
   coord_fixed(ratio = 1, xlim = c(0,1), ylim = c(0,0.65), expand = F) +
-  plotTheme + theme(legend.position = c(0.8,0.3), plot.margin = unit(20*c(1,1,1,1), "points"), panel.grid.major.x = plotTheme$panel.grid.major.y)
+  plotTheme + theme(legend.position = c(0.8,0.3), plot.margin = margin(r = 5, unit = "mm"), panel.grid.major.x = plotTheme$panel.grid.major.y, axis.title.y = element_text(size = 7))
+
+#' Save the source data
+write.csv(df, file = "data/TTIQ-S1_Fig-sourcedata.csv", row.names = F, quote = F)
 ```
 
+\clearpage
+# S2 Fig. LDA parameter distributions {-}
 
-# Linear discriminant analysis (LDA) {-}
-```{r LDA-1D-dist, dependson = "LDA-1D-calc", fig.height = 6, fig.cap = caption}
-caption <- "The distributions of (normalised) parameters per categorised group of $R_{\\rm TTIQ}$ as used in the LDA analysis in Fig. \\ref{fig:LDA-1D-plot}.
+```{r LDA-1D-dist, dependson = "LDA-1D-calc", fig.height = 6.5, fig.width = 8, fig.cap = caption}
+caption <- "\\textbf{LDA parameter distributions} The distributions of (normalised) parameters per categorised group of $R_{\\rm TTIQ}$ as used in the LDA analysis in Fig. \\ref{fig:LDA-1D-plot} in the manuscript.
 We uniformly sample 10,000 parameter combinations from $f \\in [0\\%,100\\%]$, $g \\in [0\\%,100\\%]$, $\\Delta_1 \\in [0,5]$ days, $\\Delta_2 \\in [0,5]$ days, and $\\tau \\in [0,5]$ days.
 The reproductive number $R_{\\rm TTIQ}$ is calculated for each parameter combination and categorised into bins of width $0.1$ (colour).
 The upper row shows how many parameter combinations resulted in each category of $R_{\\rm TTIQ}$.
 The next five rows show how the parameters are distributed within each category, while the horizontal bar shows the median parameter value.
-We fix $R=1.5$ and $\\alpha=20\\%$."
+We fix $R=1.5$ and $\\alpha=20\\%$.
+Data provided in \\nameref{S1_Dataset}."
 
 load("data/LDA-parameter-distributions.RData")
 
@@ -2357,43 +2861,50 @@ df.melt <- melt(df, id.vars = c("class","output"), measure.vars = c("f","Delta1"
 df.melt$param <- factor(df.melt$param, levels = levels(df.melt$param), labels = expressions[levels(df.melt$param)])
 df.melt$discrete <- ff[as.numeric(df.melt$class)]
 
-
 # Count the number of samples per group
-df.melt$i <- 1
-labs <- aggregate(i ~ class + param, df.melt, sum)
-labs$value <- NA
-labs$discrete <- ff[as.numeric(labs$class)]
+df.melt$count <- 1
+counts <- aggregate(count ~ class, df.melt[df.melt$param == "f",], sum)
+counts$discrete <- ff[as.numeric(counts$class)]
+
 # Plot
-param.histogram <- ggplot(data = labs[labs$param == "tau",], aes(x = class, fill = discrete, y = i)) +
-    geom_col(colour = "black") +
-    geom_text(aes(x = class, y = i+250, label = i), size = 3) +
-    scale_fill_gradientn(colours = c("seagreen","white","white", "white","salmon"),
-                         values = scales::rescale(c(output.min,1-.Machine$double.eps,1,1+.Machine$double.eps,output.max)),
-                         limits = c(output.min,output.max),
-                         guide = guide_colorbar(direction = "horizontal")) +
-    scale_y_continuous(name = "no. samples") +
-    plotTheme + theme(legend.position = "none", axis.title.x.bottom = element_blank(), axis.text.x.bottom = element_blank())
+param.histogram <- ggplot(data = counts, aes(x = class, y = count, fill = discrete)) +
+  geom_col(colour = "black") +
+  geom_text(aes(x = class, y = count+250, label = count), size = 3) +
+  #scale_fill_gradientn(colours = c("seagreen","white","white", "white","salmon"),
+  scale_fill_gradientn(colours = c("#0072B2","white","white","white","#E69F00"),
+                       values = scales::rescale(c(output.min,1-.Machine$double.eps,1,1+.Machine$double.eps,output.max)),
+                       limits = c(output.min,output.max),
+                       guide = guide_colorbar(direction = "horizontal")) +
+  scale_y_continuous(name = "no. samples", limits = c(0,3400), expand = c(0,0)) +
+  plotTheme + theme(legend.position = "none", axis.title.x.bottom = element_blank(), axis.text.x.bottom = element_blank())
 
 param.violins <- ggplot(df.melt, aes(x = class, y = value, fill = discrete)) +
-    facet_grid(param ~ ., labeller = label_parsed) +
-    #geom_point(position = position_jitter(width = 0.2, height = 0)) +
-    geom_violin(alpha = 0.8, colour = "black", scale = "width", draw_quantiles = 0.5) +
-    scale_fill_gradientn(colours = c("seagreen","white","white", "white","salmon"), name = "tertiary\ncases",
-                         values = scales::rescale(c(output.min,1-.Machine$double.eps,1,1+.Machine$double.eps,output.max)),
-                         limits = c(output.min,output.max),
-                         guide = guide_colorbar(direction = "horizontal")) +
-    scale_y_continuous(breaks = seq(0,1,0.25)) +
-    labs(x = expression(R[TTIQ]), y = "normalised parameter value") +
-    coord_cartesian(ylim = c(0,1)) +
-    plotTheme + theme(legend.position = "none", strip.text.y = element_text(angle = 0))
+  facet_grid(param ~ ., labeller = label_parsed) +
+  #geom_point(position = position_jitter(width = 0.2, height = 0)) +
+  geom_violin(alpha = 0.8, colour = "black", scale = "width", draw_quantiles = 0.5) +
+  #scale_fill_gradientn(colours = c("seagreen","white","white", "white","salmon"),
+  scale_fill_gradientn(colours = c("#0072B2","white","white","white","#E69F00"),
+                       name = "tertiary\ncases",
+                       values = scales::rescale(c(output.min,1-.Machine$double.eps,1,1+.Machine$double.eps,output.max)),
+                       limits = c(output.min,output.max),
+                       guide = guide_colorbar(direction = "horizontal")) +
+  scale_y_continuous(breaks = seq(0,1,0.25), labels = c("0.0","","0.5","","1.0")) +
+  labs(x = expression(R[TTIQ]), y = "normalised parameter value") +
+  coord_cartesian(ylim = c(0,1)) +
+  plotTheme + theme(legend.position = "none", axis.text.x.bottom = element_text(angle = 45, vjust = 0.6), strip.text.y = element_text(angle = 0, size = 12), panel.spacing = unit(3, "mm"))
+
+#' Save the source data
+write.csv(counts, file = "data/TTIQ-S2_FigA-sourcedata.csv", row.names = F, quote = c(1))
+write.csv(df.melt[,-6], file = "data/TTIQ-S2_FigB-sourcedata.csv", row.names = F, quote = c(1))
 
 plot_grid(
   param.histogram, param.violins,
-  align = "hv", axis = "lr", rel_heights = c(1,4), ncol = 1
+  align = "hv", axis = "lr", rel_heights = c(1,5), ncol = 1
 )
 ```
 
-
+\clearpage
+# S3 Fig. LDA range sensitivity {-}
 ```{r LDA-vary-range-calc, message = F}
 ranges <- seq(2,10,1)
 paramImpact <- lapply(ranges, function(time.range) {
@@ -2473,8 +2984,9 @@ paramImpact <- lapply(ranges, function(time.range) {
 ```
 
 ```{r LDA-vary-range-plot, dependson = c(-1), message = F, fig.cap = caption}
-caption <- "Impact of varying the range from which we sample time-dependent parameters on the LDA output.
-Each bar represents the magnitude of the components of the primary linear discriminant vector (LD1) for each parameter (colour)."
+caption <- "\\textbf{LDA range sensitivity} Impact of varying the range from which we sample time-dependent parameters on the LDA output (without quadratic terms).
+Each bar represents the magnitude of the components of the primary linear discriminant vector (LD1) for each parameter (colour).
+Data provided in \\nameref{S1_Dataset}."
 
 myColours <- c(f = palette_OkabeIto[1], g = palette_OkabeIto[4],
                Delta1 = palette_OkabeIto[2], Delta2 = palette_OkabeIto[5],
@@ -2486,10 +2998,106 @@ names(myLabs) <- c("f","g","Delta1","Delta2","tau")
 ggplot(paramImpact, aes(x = range, y = abs(LD1), fill = param)) +
   geom_col(position = position_dodge(), colour = "white") +
   scale_fill_manual(values = myColours, name = "parameter", labels = myLabs) +
-  labs(x = "upper limit of time range (days)", y = "|LD1|") +
-  plotTheme
+  labs(x = "upper limit of time range (days)", y = expression("|"~LD1~"|")) +
+  plotTheme +
+  theme(legend.text = element_text(size = 12, hjust = 0.5))
+
+#' Save the source data
+write.csv(paramImpact, file = "data/TTIQ-S3_Fig-sourcedata.csv", row.names = F, quote = c(4))
 ```
 
+\clearpage
+# S4 Fig. LDA with quadratic terms {-}
+```{r LDA-1D-quad, dependson = c("LDA-1D-calc"), message = F, fig.height = 6, fig.width = 8, fig.cap = caption}
+caption <- "\\textbf{LDA with quadratic terms} Linear discriminant analysis (LDA) of the impact of TTIQ strategies on the reproductive number $R_{\\rm TTIQ}$, now including quadratic terms.
+We use the same uniformly-sampled data as in Fig. \\ref{fig:LDA-1D-plot} in the manuscript, but now we include the quadratic parameter terms (e.g. $f \\times g$) as discriminators too.
+We take the square root of these quadratic terms to ensure the parameter distributions are not overly skewed.
+We then use LDA to construct a linear combination (LD1) of the now 15 TTIQ parameters which maximally separates the output categories.
+We then predict the LD1 values for each parameter combination, and construct a histogram of these values for each category.
+The lower panel shows the components of the primary linear discriminant vector (LD1).
+By multiplying the (normalised) TTIQ parameters by the corresponding vector component, we arrive at the LD1 prediction which corresponds to the predicted reproductive number under that TTIQ strategy.
+Longer arrows (larger magnitude components) correspond to a parameter having a larger effect on the reproductive number.
+Data provided in \\nameref{S1_Dataset}."
+
+#' Load data used in Fig. LDA-1D-plot
+load("data/LDA-parameter-distributions.RData")
+#' Add the cross-multiplied terms to the dataframe
+x <- c("f","g","Delta1","Delta2","tau")
+y <- x
+for (i in x) {
+  y <- y[y != i] # Remove f*f etc
+  for (j in y) {
+    v1 <- df[,i]
+    v2 <- df[,j]
+    #if (i %in% c("Delta1","Delta2")) v1 <- 1-v1
+    #if (j %in% c("Delta1","Delta2")) v2 <- 1-v2
+    df[,paste0(i,j)] <- sqrt(v1 * v2)
+  }
+  #y <- y[y != i] # Keep f*f etc.
+}
+#' Perform the LDA analysis based on the discrete Re class
+lda <- lda(x = df[,!(names(df) %in% c("class","output"))], grouping = df$class)
+#' Project the data onto the LDA space
+plda <- predict(object = lda, newdata = df[,!(names(df) %in% c("class","output"))])
+plot.df <- data.frame(class = df[,"class"], output = df[,"output"], lda = plda$x) # Output will be the category, lda.LD1 will be the new x-axis
+plot.df$discrete <- ff[as.numeric(plot.df$class)]
+#' LDA proportion of variance per dimension
+prop.lda <- lda$svd^2 / sum(lda$svd^2)
+#' Add the parameter arrows and labels
+lda.vectors <- as.data.frame(lda$scaling)
+lda.vectors <- cbind(lda.vectors, data.frame(params = rownames(lda$scaling), stringsAsFactors = FALSE))
+lda.vectors <- lda.vectors[order(abs(lda.vectors$LD1)),]
+#' Reorder parameters
+lda.vectors$params <- factor(lda.vectors$params, levels = lda.vectors$params)
+#' Parameter name as expression to be parsed
+expressions <- c(f = "f", g = "g", tau = "tau", Delta2 = "Delta[2]", Delta1 = "Delta[1]",
+                 ff = "f * f", fg = "sqrt(f * g)", ftau = "sqrt(f * tau)", fDelta1 = "sqrt(f * Delta[1])", fDelta2 = "sqrt(f * Delta[2])",
+                 gg = "sqrt(g * g)", gtau = "sqrt(g * tau)", gDelta1 = "sqrt(g * Delta[1])", gDelta2 = "sqrt(g * Delta[2])",
+                 tautau = "sqrt(tau * tau)", Delta1tau = "sqrt(Delta[1] * tau)", Delta2tau = "sqrt(Delta[2] * tau)",
+                 Delta1Delta1 = "sqrt(Delta[1] * Delta[1])", Delta1Delta2 = "sqrt(Delta[1] * Delta[2])",
+                 Delta2Delta2 = "sqrt(Delta[2] * Delta[2])")
+lda.vectors$param.expressions <- expressions[as.character(levels(lda.vectors$params))[lda.vectors$params]]
+#' Flip axes if necessary
+if (lda.vectors[lda.vectors$params == "f","LD1"] > 0) {
+  plot.df$lda.LD1 <- -plot.df$lda.LD1
+  lda.vectors$LD1 <- -lda.vectors$LD1
+}
+#' Plot the LDA histograms
+plot <- ggplot(plot.df, aes(x = lda.LD1, fill = discrete, group = fct_rev(class))) +
+  stat_density(aes(y = ..count../nrow(plot.df)), position = "identity", alpha = 0.8, colour = "black") +
+  #scale_fill_gradientn(colours = c("seagreen","white","white", "white","salmon"),
+  scale_fill_gradientn(colours = c("#0072B2","white","white","white","#E69F00"),
+                       name = expression(R[TTIQ]),
+                       values = scales::rescale(c(output.min,1-.Machine$double.eps,1,1+.Machine$double.eps,output.max)),
+                       limits = c(output.min,output.max),
+                       breaks = seq(0.4,1.5,0.1),
+                       labels = c("0.4","","","","","","1.0","","","","","1.5"),
+                       guide = guide_colorbar(direction = "horizontal")) +
+  coord_cartesian(xlim = 15*c(-1,1), ylim = c(0,0.15), expand = F) +
+  scale_x_continuous(breaks = seq(-15,15,5)) +
+  labs(x = paste("LD1 (", scales::percent(prop.lda[1], accuracy = 0.1), ")", sep = ""), y = "density") +
+  plotTheme + theme(legend.position = c(0.2,0.7), legend.title = element_text(vjust = 0.75))
+
+#' Plot the parameter arrows and labels
+param.plot <- ggplot(lda.vectors, aes(x = 0, xend = LD1, y = params, yend = params)) +
+  geom_vline(xintercept = 0) +
+  geom_segment(lineend = "butt", size = lineSize, arrow = arrow(length = unit(0.2, "cm"))) +
+  geom_text(aes(x = LD1 + ifelse(LD1<0,-1.3,1.2), label = format(round(LD1, digits = 2), nsmall = 2))) +
+  geom_text(aes(label = param.expressions, x = sign(-LD1)*1.2), parse = T, size = 5) +
+  #geom_text(aes(label = params, x = sign(-LD1)*0.4), parse = T, size = 5) +
+  coord_cartesian(xlim = 15*c(-1,1), ylim = c(0.5,15.5), expand = F) +
+  labs(caption = expression("parameter impact on" ~ R[TTIQ])) +
+  theme_void() +
+  theme(plot.caption = element_text(hjust = 0.5, size = plotTheme$text$size),
+        plot.margin = unit(c(0.5,0,1,0), units = "lines"))
+
+#' Save the source data
+write.csv(plot.df, file = "data/TTIQ-S4_FigA-sourcedata.csv", row.names = F, quote = c(1))
+write.csv(lda.vectors, file = "data/TTIQ-S4_FigB-sourcedata.csv", row.names = F, quote = c(12))
+
+#' Combine
+plot_grid(plot, param.plot, nrow = 2, rel_heights = c(1,2), align = "v", axis = "lr")#, labels = "AUTO")
+```
 
 \clearpage
 # References
